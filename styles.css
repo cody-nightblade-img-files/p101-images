@@ -1,11 +1,10 @@
-.body {
-  background-image: url('https://github.com/Millie-kuro/millie-kuro.github.io/blob/main/B7A87739-B12D-471C-86C2-4DC2802F5165.png?raw=true');
+body {
+  background-image: url('https://github.com/cody-nightblade/cody-nightblade.github.io/blob/gh-pages/background-images/red%20coloured%20sunrise.png?raw=true');
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   
-  text-align: center;
   font-family: Roboto, Arial, sans-serif;
   color: white;
 }
