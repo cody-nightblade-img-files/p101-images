@@ -20,3 +20,9 @@ h1, h2 {
 a {
   color: RGB(192, 192, 255);
 }
+
+hr {
+  height: 1px;
+  background-color: rgba(255,255,255,0.5);
+  border: none;
+}
