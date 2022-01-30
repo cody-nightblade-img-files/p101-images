@@ -1,0 +1,18 @@
+.body {
+  background-image: url("/background-images/red coloured sunset.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
+  font-family: Roboto, Arial, sans-serif;
+  color: white;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+a {
+  color: RGB(192, 192, 255);
+}
