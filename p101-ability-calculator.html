@@ -156,7 +156,7 @@
       function loadCookies() {
         let ar = ["wp", "sp", "str", "agi", "will", "accuracy", "dodge", "hp", "maxhp"];
         for (var i = 0; i < ar.length; i++) {
-          let newC = getCookieValue(ar[i]);
+          let newC = parseInt(getCookieValue(ar[i]));
           if (newC || 0 !== 0) { document.getElementById(ar[i]).value = newC; }
         }
         let newA = decodeURIComponent(getCookieValue("ability"));
