@@ -156,9 +156,11 @@
       function loadCookies() {
         let ar = ["wp", "sp", "str", "agi", "will", "accuracy", "dodge", "hp", "maxhp"];
         for (var i = 0; i < ar.length; i++) {
-          document.getElementById(ar[i]).value = getCookieValue(ar[i]);
+          let newC = getCookieValue(ar[i]);
+          if (newC !== null) { document.getElementById(ar[i]).value = newC; }
         }
-        document.getElementById("ability").value = decodeURIComponent(getCookieValue("ability"));
+        let newA = decodeURIComponent(getCookieValue("ability"));
+        if (newA !== null) { document.getElementById("ability").value = newA; }
       }
     </script>
 
@@ -172,7 +174,7 @@
     
     <!-- better to have a function for ea. option element?
          idk, mebbe not -->
-    <input type="text" id="ability" list="abilityList" onchange="updateDisplay()" />
+    <input type="text" id="ability" list="abilityList" onchange="updateDisplay()" value="Assassin's Strike"/>
     <datalist id="abilityList">
       <option value="Assassin's Strike">Assassin's Strike</option>
       <option value="Hurricane Round">Hurricane Round</option>
