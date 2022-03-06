@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>P101 Power Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  
+  <body>
+  
+    <script>
+      
+      var nums = [];
+      var respects = [];
+      
+      var factor = 0.8;
+      
+      var powct = 8;
+      var simct = 1000;
+      
+      var tempArray = [];
+      
+      function updateParams() {
+        powct = parseInt(document.getElementById("ct").value) || 8;
+        simct = parseInt(document.getElementById("sim").value) || 1000;
+        factor = parseFloat(document.getElementById("factor").value) || 0.8;
+      }
+      
+      function setArrays() {
+        nums = [];
+        respects = [];
+        for (var i = 0; i < powct; i++) {
+          nums.push(i);
+          respects.push(0);
+        }
+      }
+
+      function setTemp() { tempArray = [...nums]; }
+      
+      function drawOne() {
+        var tempCt = tempArray.length;
+        var s = (1 - Math.pow(factor, tempCt)) / (1 - factor);
+        var roll = Math.random() * s;
+        
+        var it = 0;
+        var itsum = 0;
+        while (itsum < roll && it < powct) {
+          itsum += Math.pow(factor, it);
+          it++;
+        }
+
+        return tempArray.splice(it - 1, 1);
+      }
+      
+      function simulateOnce() {
+        setTemp();
+        
+        for (var i = 0; i < 7; i++) {
+          var nextEntry = drawOne();
+          respects[nextEntry] += 1;
+        }
+      }
+      
+      function fullSim() {
+        setArrays();
+
+        for (var i = 0; i < simct; i++) {
+          simulateOnce();
+        }
+
+        showResult();
+      }
+
+      function showResult() {
+        var result = "<br />Factor: " + factor;
+        result += "<br /><br />";
+        result += "Counts:"
+        
+        for (var i = 0; i < nums.length; i++) {
+          result += "<br />Pos. " + (nums[i] + 1) + ": " + respects[i];
+        }
+
+        document.getElementById("dist").innerHTML = result;
+      }
+      
+    </script>
+
+    <h1>Pirate101 Powers Drawing Simulator</h1>
+    <p>
+      An attempt was made.
+      <br />This simulation uses the same system used for Pirate101's Companion selection before the Advanced Companions update.
+      <br />Many simulations will be run to determine the approximate chance of drawing a Power 1st turn.
+      <br />(max. 80 Powers)
+      <br /><br />Currently a work-in-progress.
+    </p>
+    
+    <div>
+      Number of Powers <input type="number" id="ct" value="8" min="8" max="80" oninput="updateParams()"/>
+      <br />Simulation Count <input type="number" id="sim" value="1000" min="100" max="1000000" oninput="updateParams()"/>
+      <br />Factor <input type="number" id="factor" value="0.9" min="0.1" max="0.99999" oninput="updateParams()"/>
+      <br />
+      <button onclick="fullSim()">Run Simulation</button>
+    </div>
+    
+    <br />
+    
+    <div>
+      Result
+      <div id="dist"></div>
+    </div>
+
+  </body>
+
+</html>
