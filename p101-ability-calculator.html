@@ -39,20 +39,20 @@
 
       function updateStats() {
       
-        str = parseInt(document.getElementById("str").value);
-        agi = parseInt(document.getElementById("agi").value);
-        wil = parseInt(document.getElementById("will").value);
+        str = parseInt(document.getElementById("str").value) || 0;
+        agi = parseInt(document.getElementById("agi").value) || 0;
+        wil = parseInt(document.getElementById("will").value) || 0;
         
-        wp = parseInt(document.getElementById("wp").value);
-        sp = parseInt(document.getElementById("sp").value);
+        wp = parseInt(document.getElementById("wp").value) || 1;
+        sp = parseInt(document.getElementById("sp").value) || 1;
         
         dmgtype = document.getElementById("dmgtype").value;
 
-        accuracy = parseInt(document.getElementById("accuracy").value);
-        dodge = parseInt(document.getElementById("dodge").value);
+        accuracy = parseInt(document.getElementById("accuracy").value) || 25;
+        dodge = parseInt(document.getElementById("dodge").value) || 25;
 
-        hp = parseInt(document.getElementById("hp").value);
-        maxhp = parseInt(document.getElementById("maxhp").value);
+        hp = parseInt(document.getElementById("hp").value) || 2875;
+        maxhp = parseInt(document.getElementById("maxhp").value) || 2875;
         
         saveAllCookies();
         calculateResult();
@@ -87,16 +87,9 @@
       }
       
       function show(list) {
-        showStat("wp", list);
-        showStat("sp", list);
-        showStat("str", list);
-        showStat("agi", list);
-        showStat("will", list);
-        showStat("dmgtype", list);
-        showStat("accuracy", list);
-        showStat("dodge", list);
-        showStat("hp", list);
-        showStat("maxhp", list);
+        let ar = ["wp", "sp", "str", "agi", "will", "dmgtype",
+            "accuracy", "dodge", "hp", "maxhp"];
+        for (var i = 0; i < ar.length; i++) { showStat(ar[i], list); }
       }
       
       function updateResult() {
@@ -174,71 +167,80 @@
     
     <!-- better to have a function for ea. option element?
          idk, mebbe not -->
-    <input type="text" id="ability" list="abilityList" onchange="updateDisplay()" value="Assassin's Strike"/>
-    <datalist id="abilityList">
-      <option value="Assassin's Strike">Assassin's Strike</option>
-      <option value="Hurricane Round">Hurricane Round</option>
-      <option value="Revive">Revive</option>
-    </datalist>
+    <br />
+    <div class="cent">
+      <span class="kindatitles">Ability</span>
+      <br /><input type="text" class="longerinput" id="ability" list="abilityList" onchange="updateDisplay()" value="Assassin's Strike"/>
+      <datalist id="abilityList">
+        <option value="Assassin's Strike">Assassin's Strike</option>
+        <option value="Hurricane Round">Hurricane Round</option>
+        <option value="Revive">Revive</option>
+      </datalist>
+    </div>
     
     <br />
-    <br />
     <div>
-      Stats
-      <div id="wpDisp">
-        Weapon Power: 
-        <input type="number" oninput="updateStats()" id="wp" value="1"/>
-      </div>
-      <div id="spDisp">
-        Spell Power: 
-        <input type="number" oninput="updateStats()" id="sp" value="1"/>
-      </div>
-      <div id="strDisp">
-        Strength: 
-        <input type="number" oninput="updateStats()" id="str" value="0"/>
-      </div>
-      <div id="agiDisp">
-        Agility: 
-        <input type="number" oninput="updateStats()" id="agi" value="0"/>
-      </div>
-      <div id="willDisp">
-        Will: 
-        <input type="number" oninput="updateStats()" id="will" value="0"/>
-      </div>
+      <div class="cent"><span class="kindatitles">Stats</span></div>
       
-      <div id="dmgtypeDisp">
-        Weapon Damage Type: 
-        <select id="dmgtype" onchange="updateStats()">
-          <option value="Physical">Physical</option>
-          <option value="Magical">Magical</option>
-        </select>
+      <div class="cent">
+      <div class="migi">
+        <div id="wpDisp">
+          Weapon Power: 
+         <input type="number" oninput="updateStats()" id="wp" value="1"/>
+        </div>
+        <div id="spDisp">
+          Spell Power: 
+          <input type="number" oninput="updateStats()" id="sp" value="1"/>
+        </div>
+        <div id="strDisp">
+          Strength: 
+          <input type="number" oninput="updateStats()" id="str" value="0"/>
+        </div>
+        <div id="agiDisp">
+          Agility: 
+          <input type="number" oninput="updateStats()" id="agi" value="0"/>
+        </div>
+        <div id="willDisp">
+          Will: 
+          <input type="number" oninput="updateStats()" id="will" value="0"/>
+        </div>
+      
+        <div id="dmgtypeDisp">
+          Weapon Damage Type: 
+          <select id="dmgtype" onchange="updateStats()">
+            <option value="Physical">Physical</option>
+            <option value="Magical">Magical</option>
+          </select>
+        </div>
+
+        <div id="accuracyDisp">
+          Attacker's Accuracy:
+          <input type="number" oninput="updateStats()" id="accuracy" value="25" />
+        </div>
+        <div id="dodgeDisp">
+          Target's Dodge:
+          <input type="number" oninput="updateStats()" id="dodge" value="25" />
+        </div>
+
+        <div id="hpDisp">
+          Health:
+          <input type="number" oninput="updateStats()" id="hp" value="2875" />
+        </div>
+        <div id="maxhpDisp">
+          Max Health:
+          <input type="number" oninput="updateStats()" id="maxhp" value="2875" />
+        </div>
+      </div>
       </div>
 
-      <div id="accuracyDisp">
-        Attacker's Accuracy:
-        <input type="number" oninput="updateStats()" id="accuracy" value="25" />
-      </div>
-      <div id="dodgeDisp">
-        Target's Dodge:
-        <input type="number" oninput="updateStats()" id="dodge" value="25" />
-      </div>
-
-      <div id="hpDisp">
-        Health:
-        <input type="number" oninput="updateStats()" id="hp" value="2875" />
-      </div>
-      <div id="maxhpDisp">
-        Max Health:
-        <input type="number" oninput="updateStats()" id="maxhp" value="2875" />
-      </div>
     </div>
     
     <br />
     
-    <p id="resultAmt">
-      Ability Effect:
+    <div class="resultDiv">
+      <span class="kindatitles">Ability Effect</span>
       <br /><span id="result"></span>
-    </p>
+    </div>
 
   </body>
 
