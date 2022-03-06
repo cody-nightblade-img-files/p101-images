@@ -27,6 +27,15 @@ hr {
   border: none;
 }
 
+.cent {
+  text-align: center;
+}
+
+.migi {
+  display: inline-block;
+  text-align: right;
+}
+
 input, select {
   color: white;
   background-color: RGBA(255, 255, 255, 0.3);
@@ -34,6 +43,23 @@ input, select {
   border-radius: 5px;
 }
 
+input {
+  width: 75px;
+}
+
+.longerinput {
+  width: 150px;
+  text-align: center;
+}
+
 option {
   color: black;
+}
+
+.resultDiv {
+  text-align: center;
+}
+
+.kindatitles {
+  font-size: 150%;
 }
