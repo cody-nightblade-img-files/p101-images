@@ -157,10 +157,10 @@
         let ar = ["wp", "sp", "str", "agi", "will", "accuracy", "dodge", "hp", "maxhp"];
         for (var i = 0; i < ar.length; i++) {
           let newC = getCookieValue(ar[i]);
-          if (newC !== null) { document.getElementById(ar[i]).value = newC; }
+          if (newC || 0 !== 0) { document.getElementById(ar[i]).value = newC; }
         }
         let newA = decodeURIComponent(getCookieValue("ability"));
-        if (newA !== null) { document.getElementById("ability").value = newA; }
+        if (newA || "" !== "") { document.getElementById("ability").value = newA; }
       }
     </script>
 
