@@ -42,8 +42,9 @@ option { color: black; }
 
 
 /* Back to Home */
-.bth { position: absolute; top: 5vh; right: 5vw; }
-.bth a { color: blue; }
+.bth { position: absolute; top: calc(5vh + 5px); right: calc(5vw + 5px); }
+.bth a { color: white; text-decoration: none;
+  text-shadow: 0 0 5px black, 0 0 5px black, 0 0 2px blue; }
 
 /* Pirate101 Guide Formatting */
 body.guide { background-image: url("wh-images/guide-bg.png"); }
@@ -51,7 +52,7 @@ h1,h2 { font-family: shermlock; }
 
 .boxshad { position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  box-shadow: inset 0px 0px calc(0.25*(100vw+100vh)/2) black; }
+  box-shadow: inset 0px 0px calc(0.25 * (100vw + 100vh) / 2) black; }
 
 .guidebox {
   position: absolute;
@@ -78,7 +79,7 @@ h1,h2 { font-family: shermlock; }
 .guidebox h2.wh { text-align: left; }
 .guidebox table.wh td { padding: 0px 3px; }
 
-/* Disable scrollbar */
+/* Make scrollbar invisible */
 .guidebox {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
