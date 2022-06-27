@@ -41,7 +41,7 @@ option { color: black; }
 .kindatitles { font-size: 150%; }
 
 /* Pirate101 Guide Formatting */
-body.guide { background-image: url("images/guide-bg.png"); }
+body.guide { background-image: url("wh-images/guide-bg.png"); }
 h1,h2 { font-family: shermlock; }
 
 .boxshad { position: fixed;
