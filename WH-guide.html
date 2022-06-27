@@ -1,0 +1,342 @@
+<html>
+  <head>
+    <title>
+      Using Witch Hunter
+    </title>
+    <link rel="icon" href="images/staff.png" />
+    <link rel="stylesheet" href="styles.css" />
+    
+  </head>
+  
+  <body class="guide">
+    <div class="boxshad">
+    
+    <div class="guideboxouter">
+    <div class="guidebox">
+
+      <center><img src="images/WH guide img v3 cropped.png"/></center>
+
+      <br/>You can find the Pirate101Central version of this post <a href="http://www.pirate101central.com/forums/showthread.php?62739&p=313962#post313962">here</a>.
+
+      <br/><br/>
+      <table class="data" style="margin-left: 20px">
+        Table of Contents
+        <tr><td><a href="#intro">Introduction</a></td></tr>
+        <tr><td><a href="#basic">What is Witch Hunter?</a></td></tr>
+        <tr><td><a href="#train">How do you train Witch Hunter?</a></td></tr>
+        <tr><td><a href="#atk">What kind of attack is Witch Hunter?</a></td></tr>
+        <tr><td><a href="#activate">How does Witch Hunter activate?</a></td></tr>
+        <tr><td><a href="#res">How much Resist does Witch Hunter 3+ give?</a></td></tr>
+        <tr><td><a href="#base">How's Witch Hunter's base Damage determined?</a></td></tr>
+        <tr><td><a href="#sum">Witch Hunter Summary</a></td></tr>
+      </table>
+
+      <h1 class="wh" id="intro">Introduction</h1>
+      <p>
+        Recently, I've been wondering if there were any known specific details about Witch Hunter.
+        <br />
+        Search results weren't helpful, so I decided to investigate with the help of one of my friends, <a href="https://www.twitch.tv/ultzx">ultzx</a>.
+        <br />
+        After about one month, we figured out how exactly it works.
+      </p>
+      <p>
+        This information can be helpful to others, so I have created this guide.
+        <br />
+        I will discuss how Witch Hunter works, including examples to help with understanding.
+      </p>
+
+      <h1 class="wh" id="basic">What is Witch Hunter?</h1>
+      <p>
+        In case you are not familiar, Witch Hunter allows the user to make a bonus attack if the enemy uses magic on them.
+        <br/>This attack occurs before the magic attack that activated it.
+        <br/>It also activates before Intuition.
+      </p>
+      <p>
+        It also states that it reduces damage taken by 50% for the incoming magical attack that activated it.
+        <br/>(The in-game text states "-50% <i>Weapon Power</i> vs Magic." It does not actually reduce Weapon Power, just damage taken.)
+      </p>
+      <table class="data" style="margin-left: 10px">
+        General details by rank:
+        <tr>
+          <td>1</td>
+          <td>May activate once per turn.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>May activate up to 3 times per turn.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>If the bonus attack hits, boosts the user's Resist for 3 turns.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>The bonus attack has +5% Critical Chance.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>If the bonus attack hits, it may purge buffs from the enemy.</td>
+        </tr>
+      </table>
+      <p>
+        If you want to view Pirate101Central's wiki pages for Witch Hunter, click on the corresponding images below.
+      </p>
+      <table class="wh">
+        <tr>
+          <td>
+            <a href="https://www.pirate101central.com/wiki/Ability:Witch_Hunter_(Rank_1)">
+              <img src="images/Witch Hunter (Rank 1).png"/>
+            </a>
+          </td><td>
+            <a href="https://www.pirate101central.com/wiki/Ability:Witch_Hunter_(Rank_2)">
+              <img src="images/Witch Hunter (Rank 2).png"/>
+            </a>
+          </td><td>
+            <a href="https://www.pirate101central.com/wiki/Ability:Witch_Hunter_(Rank_3)">
+              <img src="images/Witch Hunter (Rank 3).png"/>
+            </a>
+          </td><td>
+            <a href="https://www.pirate101central.com/wiki/Ability:Witch_Hunter_(Rank_4)">
+              <img src="images/Witch Hunter (Rank 4).png"/>
+            </a>
+          </td><td>
+            <a href="https://www.pirate101central.com/wiki/Ability:Witch_Hunter_(Rank_5)">
+              <img src="images/Witch Hunter (Rank 5).png"/>
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <center><img src="images/text divider.png"/></center>
+
+      <h1 class="wh" id="train">
+        How do you train Witch Hunter?
+      </h1>
+      <p>
+        Certain companions can train Witch Hunter.
+        <br/>(most Witchdoctor companions + some Privateer Companions, like Wing Chun and Lucky Jack Russel)
+        <br />
+        Pirates can obtain up to 3 ranks of Witch Hunter.
+      </p>
+      <p>
+        Ways to get Witch Hunter ranks:
+      </p>
+      <ul>
+        <li>
+          trained from Kurotadori (the Witchdoctor Clandestine Trainer) for 1 Practice Point.
+          <br/>(required: Level 20+, Staffy Weapons 2)
+        </li>
+        <li>
+          granted by Phule's Wand (dropped in the Bruno Chapel instance)
+        </li>
+        <li>
+          granted by a pet with the Grants Witch Hunter pet talent
+        </li>
+      </ul>
+
+      <center><img src="images/text divider.png"/></center>
+
+      <h1 class="wh" id="atk">
+        What kind of attack does Witch Hunter deal?
+      </h1>
+      <p>
+        The bonus attack from Witch Hunter actually depends on the user's basic attack type -- melee, ranged, or magic.
+      </p>
+      <p>
+        If the user with Witch Hunter is a....
+      </p>
+      <ul>
+        <li>
+          melee unit -- Witch Hunter deals a melee attack
+        </li>
+        <li>
+          ranged unit -- Witch Hunter deals a ranged attack
+        </li>
+        <li>
+          magic unit -- Witch Hunter deals a magic attack
+          <br/>(If the enemy has Witch Hunter, then this may cause their Witch Hunter to activate, causing a Witch Hunter chain.)
+        </li>
+      </ul>
+
+      <center><img src="images/text divider.png"/></center>
+
+      <h1 class="wh" id="activate">
+        How exactly does Witch Hunter activate?
+      </h1>
+      <p>
+        The game states that Witch Hunter activates against incoming enemy magic.
+        <br/>However, the bonus attack and damage reduction only occur under certain conditions, meaning that it's possible for Witch Hunter to do <b>absolutely nothing</b> when attacked with magic.
+      </p>
+
+      <h2 class="wh">
+        Witch Hunter's Damage Reduction
+      </h2>
+      <p>
+        Witch Hunter's damage reduction requires being next to the unit attacking you with magic.
+        <br/>In this regard, it favors melee units, since they will naturally be adjacent to their attackers.
+        <br/>Ranged and magic units can still benefit, but they're much less likely to be next to enemy magic users.
+      </p>
+
+      <h2 class="wh">
+        Witch Hunter's Bonus Attack
+      </h2>
+      <p>
+        For the bonus attack to occur, one of the following conditions must be met:
+      </p>
+      <ul>
+        <li>
+          You must be affected by the magic attack.
+        </li>
+        <li>
+          You must have the same attacking type (melee / ranged / magic) as the unit directly targeted by magic.
+          <br/>(This is always true if you are the directly-selected target.)
+        </li>
+      </ul>
+      <p>
+        Do note both effects may only happen up to 3 times / turn (once per turn if rank 1).
+      </p>
+      <div style="margin: 0 auto; width: 50%"><center><img src="images/scenario 1.png"/></center></div>
+      <p>
+        My pirate is casting Mojo Storm, directly targeting Old Scratch to hit two Bone Drakes, both of which have Witch Hunter 1.
+        <br/><br/>
+        Since Old Scratch attacks with magic, only magic-attacking enemies could counter with Witch Hunter.
+        <br/>Thus, the Bone Drake next to my Pirate did not use Witch Hunter (it's a melee attacker).
+        <br/>However, since it was next to my Pirate, it only took 50% damage.
+      </p>
+
+      <h2 class="wh">
+        An interesting case with Witch Hunter.....
+      </h2>
+      <p>
+        Something to note about how this Epic activates is that targeting out of range still uses one of the Epic's bonus attack(s).
+        <br/>This wastes 1 fire from the user with Witch Hunter (even though the bonus attack wasn't used).
+      </p>
+      <p>
+        For example, here's a clip:
+      </p>
+      <center><iframe src="https://www.youtube.com/embed/HYywb7E26_o" height="320" width="480"></iframe></center>
+      <p>
+        Before this turn, no Bone Drakes activated Witch Hunter.
+        <br/><br/>
+        Note that Witch Hunter did not activate against Old Scratch at all.
+        <br/>This is because my Pirate hit them with Mojo Storm.
+        <br/><br/>
+        However, the Bone Drakes still took reduced damage from Scratch's spell, except for the one next to my Pirate (whose damage reduction was already used).
+        <br/><br/><br/>
+        Another example would be this scenario:
+      </p>
+      <center><iframe src="https://www.youtube.com/embed/HddEwWxrehg" height="320" width="480"></iframe></center>
+      <p>
+        A hidden unit attacked my Buccaneer with Hoodoo Touch, dealing 10 damage.
+        <br/>Its stated base damage was 18, though, meaning that the attack was halved.
+        <br/>(My Buccaneer has 0 Resistance.)
+        <br/><br/>
+        After that, another unit (not hidden) tried to use Ghostwail on my Buccaneer. However, he was attacked with Witch Hunter and was defeated.
+      </p>
+      <p>
+        Because of these interactions, it's easier to state the bonus attack and damage reduction act independently of each other.
+      </p>
+
+      <center><img src="images/text divider.png"/></center>
+
+      <h1 class="wh" id="res">
+        How much Resistance does Witch Hunter 3+ give?
+      </h1>
+      <p>
+        As I've stated in a different thread, the Resistance you gain from Witch Hunter 3:
+      </p>
+      <ul>
+        <li>
+          is equal to 25% of your total Spell Power, rounded down
+          <br/>(Scratch greatly helps here with his Spell Power buffs!)
+        </li>
+        <li>
+          lasts for 3 turns
+        </li>
+        <li>
+          does not show up as a buff during turn selection
+        </li>
+      </ul>
+      <p>
+        You can only gain Resistance from Witch Hunter 3+ when you successfully hit the enemy with it.
+        Since it lasts for 3 turns, you can stack them to insane values, such as:
+      </p>
+      <center><img src="images/high Magic Resist.jpg"/></center>
+      <p>
+        Note how it says I gained 177 Resist <b>7 times</b>.
+        <br/>This is the kind of Resist you can gain from Witch Hunter 3.
+        <br/>(Witch Hunter hit seven times in the last 3 turns, hence the repetition.)
+      </p>
+
+      <center><img src="images/text divider.png"/></center>
+
+      <h1 class="wh" id="base">
+        How's Witch Hunter's base Damage determined?
+      </h1>
+      <p>
+        Here's Witch Hunter's base Damage formula:
+        <br/><br/><span style="margin-left: 15px">base = 1.35 * [Spell Power] * (1 + 0.002 * (main stat))</span>
+        <br/><br/>
+        As you can see, it uses Spell Power and the user's main stat (Strength / Agility / Will).
+        <br/>Like other Epics, it may deal Physical or Magical Damage, depending on the weapon.
+      </p>
+      <center><img src="images/text divider.png"/></center>
+
+      <h1 class="wh">
+        Other Notes
+      </h1>
+      <ul>
+        <li>
+          Images used for Witch Hunter 4 and 5 are edited by me.
+          <br/>Witch Hunter 4 and 5 are not currently obtainable.
+        </li>
+      </ul>
+
+      <h1 class="wh" id="sum">
+        Summary
+      </h1>
+      <ul>
+        <li>
+          Witch Hunter activates against incoming magic attacks.
+        </li>
+        <li>
+          Depending on the user, Witch Hunter may deal a melee, ranged, or magic attack to the enemy.
+        </li>
+        <li>
+          You can have up to 3 ranks of Witch Hunter via training it or using items that grant it (Phule's Wand + pet).
+        </li>
+        <li>
+          Witch Hunter’s damage reduction and bonus attack work separately from each other.
+        </li>
+        <li>
+          The damage reduction only works when adjacent to the enemy attacker.
+          <br/>It works independent of the bonus attack the Epic grants.
+        </li>
+        <li>
+          The bonus attack only occurs if you are affected and have the same attack type (melee / ranged / magic) as the directly-targeted unit (which can be yourself).
+        </li>
+        <li>
+          Being affected by enemy magic will use the bonus attack's fires, regardless of whether the above condition is met.
+        </li>
+        <li>
+          Resistance gained from Witch Hunter is based on the user's total Spell Power and lasts for 3 turns.
+        </li>
+        <li>
+          Witch Hunter's base damage is based on the user's total Spell Power and main stat.
+        </li>
+      </ul>
+
+      <br />
+      <p style="text-align: center">
+         Thank you for reading!
+         <br/>If there's anything I should do to improve this guide, please let me know!
+         <br/>Also, if there are any questions regarding this Epic, please ask!
+         <br/>(I'll try my best to answer it if possible.)
+         <br/><br/>You can contact me through <a href="https://discord.gg/bHvxZur">Senor_Spicy_'s Discord server</a>.
+      </p>
+    </div>
+    </div>
+
+    </div>
+  </body>
+</html>
