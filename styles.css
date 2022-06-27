@@ -46,7 +46,7 @@ h1,h2 { font-family: shermlock; }
 
 .boxshad { position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  box-shadow: inset 0px 0px 100px black; }
+  box-shadow: inset 0px 0px calc(0.25 * (100vw + 100vh) / 2) black; }
 
 .guidebox {
   position: absolute;
