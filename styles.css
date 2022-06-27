@@ -40,13 +40,18 @@ option { color: black; }
 .resultDiv { text-align: center; }
 .kindatitles { font-size: 150%; }
 
+
+/* Back to Home */
+.bth { position: absolute; top: 5vh; right: 5vw; }
+.bth a { color: blue; }
+
 /* Pirate101 Guide Formatting */
 body.guide { background-image: url("wh-images/guide-bg.png"); }
 h1,h2 { font-family: shermlock; }
 
 .boxshad { position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  box-shadow: inset 0px 0px calc(0.25 * (100vw + 100vh) / 2) black; }
+  box-shadow: inset 0px 0px calc(0.25*(100vw+100vh)/2) black; }
 
 .guidebox {
   position: absolute;
