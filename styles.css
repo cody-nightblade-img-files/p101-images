@@ -1,3 +1,9 @@
+@font-face {
+  font-family: shermlock;
+  src: url("fonts/Shermlock.ttf");
+}
+
+/* Main Site CSS */
 body {
   background-image: url('https://github.com/cody-nightblade/cody-nightblade.github.io/blob/gh-pages/background-images/red%20coloured%20sunrise.png?raw=true');
   background-position: center center;
@@ -9,32 +15,15 @@ body {
   color: white;
   text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
   
-  margin-left: 5vw;
-  margin-right: 5vw;
+  margin: 0 0;
 }
 
-h1, h2 {
-  text-align: center;
-}
+h1, h2 { text-align: center; }
+a { color: RGB(192, 192, 255); }
+hr { height: 1px; background-color: rgba(255,255,255,0.5); border: none; }
 
-a {
-  color: RGB(192, 192, 255);
-}
-
-hr {
-  height: 1px;
-  background-color: rgba(255,255,255,0.5);
-  border: none;
-}
-
-.cent {
-  text-align: center;
-}
-
-.migi {
-  display: inline-block;
-  text-align: right;
-}
+.cent { text-align: center; }
+.migi { display: inline-block; text-align: right; }
 
 input, select {
   color: white;
@@ -45,19 +34,48 @@ input, select {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
-.longerinput {
-  width: 150px;
-  text-align: center;
-}
+.longerinput { width: 150px; text-align: center; }
 
-option {
+option { color: black; }
+.resultDiv { text-align: center; }
+.kindatitles { font-size: 150%; }
+
+/* Pirate101 Guide Formatting */
+body.guide { background-image: url("images/guide-bg.png"); }
+h1,h2 { font-family: shermlock; }
+
+.boxshad { position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  box-shadow: inset 0px 0px 100px black; }
+
+.guidebox {
+  position: absolute;
+  padding: 10px;
+  top: 5vh;
+  left: 5vw;
+  right: 5vw;
+  bottom: 5vh;
+  background-color: RGBA(251, 250, 241, 0.8);
+  border: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #82501D;
+  box-shadow: 0px 0px 8px #000000;
   color: black;
+  text-shadow: none;
+  overflow-y: scroll;
 }
+.guidebox table { color: black; margin: 0 auto; }
+.guidebox table.data td { padding: 0px 8px; }
+.guidebox img { width: 100%; }
+.guidebox a { color: blue; }
+.guidebox h1.wh,h2.wh { color: green; }
+.guidebox h2.wh { text-align: left; }
+.guidebox table.wh td { padding: 0px 3px; }
 
-.resultDiv {
-  text-align: center;
+/* Disable scrollbar */
+.guidebox {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
 }
-
-.kindatitles {
-  font-size: 150%;
-}
+.guidebox::-webkit-scrollbar { display: none; }
