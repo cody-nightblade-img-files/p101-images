@@ -41,12 +41,18 @@ option { color: black; }
 .kindatitles { font-size: 150%; }
 
 
-/* Back to Home */
+/* iframe --------------------------------------- */
+iframe { border: none; }
+
+
+/* Back to Home --------------------------------- */
 .bth { position: absolute; top: calc(5vh + 5px); right: calc(5vw + 5px); }
 .bth a { color: white; text-decoration: none;
   text-shadow: 0 0 5px black, 0 0 5px black, 0 0 2px blue; }
+.bth hr { background-color: #EEB000; }
 
-/* Pirate101 Guide Formatting */
+
+/* Pirate101 Guide Formatting ------------------- */
 body.guide { background-image: url("wh-images/guide-bg.png"); }
 h1,h2 { font-family: shermlock; }
 
@@ -78,6 +84,13 @@ h1,h2 { font-family: shermlock; }
 .guidebox h1.wh,h2.wh { color: green; }
 .guidebox h2.wh { text-align: left; }
 .guidebox table.wh td { padding: 0px 3px; }
+
+.guidebox h1.hm { color: blue; }
+.guidebox h2.hm,h3.hm { color: RGB(0, 0, 192); text-align: left; }
+.guidebox .green { color: green; }
+.guidebox .red { color: red; }
+.guidebox .blue { color: blue; }
+.guidebox .comment { color: RGB(128, 128, 118); }
 
 /* Make scrollbar invisible */
 .guidebox {
