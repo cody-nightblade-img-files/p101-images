@@ -1,0 +1,1250 @@
+<!DOCTYPE HTML>
+  <head>
+    <title>
+      P101's Hidden Formula
+    </title>
+    <link rel="icon" href="icons/hidden-multi.png" />
+    <link rel="stylesheet" href="styles.css" />
+    
+  </head>
+  
+  <body class="guide">
+    <script>
+      function toggleB1() {
+        document.getElementById("bonus1").hidden = !document.getElementById("bonus1").hidden;
+      }
+
+      function toggleB2() {
+        document.getElementById("bonus2").hidden = !document.getElementById("bonus2").hidden;
+      }
+    </script>
+
+    <div class="boxshad">
+
+    <div class="guidebox">
+      <span id="top"></span>
+
+      <br/><br/>
+      <table class="data" style="margin-left: 20px">
+        <tr>
+          <td>
+            <img src="hm-images/mojo storm causes headaches.png" style="width: 300px"/>
+          </td>
+          <td>
+            <center><img src="icons/hidden-multi.png" style="width: 30px"/>Table of Contents</center>
+            <br/><a href="#intro">Introduction</a>
+            <br/><a href="#crit">Explaining Bonus Critical Chance</a>
+            <br/><a href="#damage">Explaining Damage Inconsistency</a>
+            <br/><a href="#heal">Explaining Heal Inconsistency</a>
+            <br/><a href="#ekusupuro-----jon">Explosive!</a>
+            <br/><a href="#general">A General Formula</a>
+            <br/><a href="#summary">Summary</a>
+            <br/><a href="#arigatou">Special Thanks</a>
+          </td>
+        </tr>
+      </table>
+
+      <h1 class="hm" id="intro">
+        Introduction
+      </h1>
+      <p>
+        Shortly after the Critical update, a member of Duelist101 (now <a href="https://finalbastion.com" target="_blank">FinalBastion</a>) posted about bonus Critical Chance.
+        <br/><br/>While that post is no longer available, it made some important points.
+        <br/>It also had a graph, and that made something magically click about the formula behind it.
+        <br/>That realization was vital to learning about bonus Critical, and later about a hidden boost on various abilities' effectiveness.
+
+        <br/>
+        <table style="margin-left: 20px">
+          I learned that it affects:
+          <tr><td>-</td><td>bonus Critical Chance</td></tr>
+          <tr><td>-</td>
+            <td>base Damage formulas for various Powers and the Explosive! Epic Talent</td>
+          </tr>
+          <tr><td>-</td><td>various forms of healing</td></tr>
+        </table>
+
+        <br/>Below is a summary of my findings on Pirate101's hidden formula.
+      </p>
+
+      <h1 class="hm" id="crit">
+        Explaining Bonus Critical Chance
+      </h1>
+      <p>
+        During recent investigation, I derived bonus critical chance to be:
+        <br/><br/>
+        <span style="margin-left: 20px"/>
+        <span class="green">
+          Crit+
+        </span> = 0.125 × (<span class="blue">ATK</span> / <span class="red">DEF</span> - 1),
+
+        </br>
+        <table style="margin-left: 20px">
+          where:
+          <tr><td>-</td>
+            <td class="green">Crit+ refers to bonus Critical Chance,</td>
+          </tr>
+          <tr><td>-</td>
+            <td class="blue">ATK refers to the attacking unit's amount of their main stat, and</td>
+          </tr>
+          <tr><td>-</td>
+            <td class="red">DEF refers to the defending unit's amount of the same stat.</td>
+          </tr>
+        </table>
+
+        <br/>This is bounded between 0 and 0.25.
+        <br/>In battle, the amount displayed is rounded down.
+
+        <br/><br/>
+        To make it easier to understand, here's an example:
+        <br/>My Witchdoctor is attacking another Pirate's Kan Po, but is unsure what the bonus Critical Chance is.
+
+        <br/><br/>
+        First, you must know what the attacker's main stat is ー in this case, Will.
+        <br/>Then, you must get that stat's amount for both the attacking and defending units.
+
+        <table style="margin-left: 20px">
+          In this case...
+          <tr><td>-</td>
+            <td class="blue">Witchdoctor (attacker) → 48 Will</td>
+          </tr>
+          <tr><td>-</td>
+            <td class="red">Kan Po (defender) → 19 Will</td>
+          </tr>
+        </table>
+
+        <br/>
+        <table style="margin-left: 20px">
+          Now, we just plug these in...
+          <tr>
+            <td><span class="green">
+                Crit+
+              </span>
+            </td>
+            <td>
+              = 0.125 × (<span class="blue">ATK</span> / <span class="red">DEF</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 0.125 × (<span class="blue">48</span> / <span class="red">19</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = <span class="green">0.19078… → +19% Critical Chance</span>
+            </td>
+          </tr>
+        </table>
+
+        <br/>So, my Witchdoctor has <span class="green">+19% bonus Critical Chance</span> against Kan Po.
+      </p>
+
+      <h2 class="hm">
+        Slight Critical+ Inaccuracy, and a Potential Explanation (bonus)
+      </h2>
+      <button onclick="toggleB1()">Show / Hide</button>
+      <div id="bonus1" hidden="true">
+        During my initial investigation, I derived a slightly different formula:
+        <br/><br/>
+        <span class="green">Crit+</span>
+        = 0.125 × (<span class="blue">ATK</span>
+        - <span class="red">DEF</span>) / <span class="red">DEF</span>.
+
+        <br/><br/>
+        This is mathematically equivalent to the current formula.
+        <br/>However, I had cases where certain ATK / DEF pairs always showed 1% less than expected.
+
+        <br/><br/>
+        For example, my first encounter with this issue.
+        <br/>In this situation, my Musketeer
+        (which has <span class="blue">126 Agility</span>) attacks an enemy with
+        <span class="red">50 Agility</span>.
+
+        <br/>
+        <table style="margin-left: 20px">
+          The formula says I have +19% Critical Chance:
+          <tr>
+            <td><span class="green">
+                Crit+
+              </span>
+            </td>
+            <td>
+              = 0.125 × (<span class="blue">ATK</span> - <span class="red">DEF</span>)
+              / <span class="red">DEF</span>
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 0.125 × (<span class="blue">126</span> - <span class="red">50</span>)
+              / <span class="red">50</span>
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = <span class="green">0.19 → +19% Critical Chance</span>
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        However, it always displayed +18% in-game...
+
+        <br/><br/>
+        This drove me up the wall and stopped me from publishing my findings for over a year.
+        <br/>Fortunately, though, I stumbed upon a possible explanation for it.
+
+        <br/><br/>
+        ...so, why does this happen?
+        <br/>My explanation's a bit technological, so I'll try to break it down to make it easier to understand.
+
+        <br/><br/>
+        First, I'll introduce a few terms: float and double.
+        <br/>Both are data types you can use to store decimals (e.g. 0.125, 1299.25, 3.141592, etc.)
+
+        <br/>
+        <table style="margin-left: 20px">
+          Here are a few additional things about them:
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              floats are less accurate than decimals
+              <br/>(floats are accurate to 6 - 7 places, decimals ~15)
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              floats only take half the storage doubles use
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              both are prone to rounding errors
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        Now, for the potential explanation...
+        <br/>Converting between various number types may result in lossy data.
+        <br/>(Basic programming classes will tell you this.)
+
+        <br/><br/>
+        For example, take two numbers, say 94 and 50, and store them as floats.
+        <br/>Then, divide them, and store the result as a double.
+        <br/><br/>If you do the math by hand, you should get exactly 1.88.
+        <br/>However, when you type these into a compiler, you get 1.8799999952316284, which is incorrect:
+        <center><img src="hm-images/dividing 94 by 50.png" style="width: 70vw"/></center>
+
+        <br/>
+        The same thing probably happens in-game, when calculating bonus Critical Chance.
+        <br/>Here's a snippet of the code I used to verify this:
+
+        <br/>
+        <center><img src="hm-images/126 over 50 calc result expln.png" style="width: 70vw"/></center>
+
+        <br/>
+        <h3 class="hm">
+          Code Explanation
+        </h3>
+        float atk = 126, def = 50;
+        <br/><span style="margin-left: 20px"/><i class="comment">Stores the two values as floats.</i>
+        <br/>double ans = (double) (0.125 * ((atk - def) / def));
+        <br/><span style="margin-left: 20px"/>
+        <i class="comment">Calculates bonus Critical Chance for 126 vs 50 and stores the result as a double.</i>
+        <br/>System.out.println("    Exact:" + (ans * 100));
+        <br/><span style="margin-left: 20px"/>
+        <i class="comment">Displays the exact result as a percentage.</i>
+        <br/>System.out.println("Displayed:" + (int) Math.floor(ans * 100) + "%");
+        <br/><span style="margin-left: 20px"/><i class="comment">Displays the same result as a percentage, rounded down.</i>
+
+        <br/><br/>
+        These errors occur due to lossy conversion between data types, like float → double, and compilers may warn you about these kinds of things.
+      </div>
+
+      <h2 class="hm">
+        Further Lossy Data ― Formula Variation (bonus)
+      </h2>
+      <button onclick="toggleB2()">Show / Hide</button>
+      <div id="bonus2" hidden="true">
+        In the past section, I defined the bonus Critical Chance formula as
+        <br/><br/>
+        <span style="margin-left: 20px"/><span class="green">Crit+</span>
+        = 0.125 × (<span class="blue">ATK</span>
+        - <span class="red">DEF</span>) / <span class="red">DEF</span>.
+
+        <br/><br/>
+        However, after further investigation, I've determined that there's importance in how the formula is written, leading to the current version of the formula.
+        <br/>This was brought up by an example where the
+        <span class="blue">attacker has 78 Will</span>, while the
+        <span class="red">defender has 50 Will</span>.
+
+        <br/><br/>
+        Among the different ways I chose to write the same formula, only one version gave the correct result.
+
+        <br/><br/>
+        These are the in-game values I observed during my recent investigation:
+        <table>
+          <tr>
+            <td><img src="hm-images/78 over 50 stats.png"/></td>
+            <td><img src="hm-images/78 over 50 ingame result.png"/></td>
+          </tr>
+        </table>
+
+        <br/>Next, here's a code snippet with some variations of the same bonus Critical Chance formula:
+        <center><img src="hm-images/formula eq investigation.png" style="width: 70vw"/></center>
+
+        <br/>
+        The four formulas in this code snippet are mathematically equivalent.
+        <br/>However, they are all different on a technical level (because of rounding errors).
+
+        <br/><br/>
+        Note that only the first one matches the +6% Critical Chance shown in-game.
+        <br/>This led to the current version of the bonus Critical Chance formula.
+
+        <h3 class="hm">Does this affect actual Critical chance?</h3>
+        It's hard to say because we only get to see what's displayed.
+        <br/>It's worth noting (for completion, as someone's bound to encounter this issue).
+        <br/>However, this error is <b>not statistically significant</b>, so you don't have to worry about it.
+
+        <h3 class="hm">Why does converting from float to double result in lossy conversion?</h3>
+        Admittedly, while I am aware of it, I wasn't taught why it happens, so I don't have a proper explanation.
+        <br/>If there are any computer programmers that know the answer to this, please let me know, thanks!
+
+        <h3 class="hm">Why would Pirate101 have lossy conversion?</h3>
+        Honestly, I don't know ― you could get away with using a pair of ints (another data type, short for integers) in place of floats.
+        <br/>With this, you simply cast one of them as a double to prevent the compiler from giving warnings.
+        <br/>This circumvents the lossy conversion shown above, all while using the same amount of storage.
+
+        <br/><br/>
+        Then again, they probably have their reasons for it.
+        <br/>There might be some technical reason that I'm not aware of, or it might be related to another part of the game's programming.
+
+        <br/><br/>
+        My statements on this are solely based on my investigation.
+        <br/>Although it was set up as an experiment, there's much I don't know about Pirate101's engine.
+        <br/>To truly confirm whether this is the case, we'd have to look at the code itself, but that's something we won't see because we're players, not KI staff.
+
+        <br/><br/>
+        The reason I brought this up is that I have consistently used this to predict when a lossy conversion would happen, with various test cases:
+
+        <table>
+          <tr>
+            <td><img src="hm-images/126 over 50 stats.png"/></td>
+            <td><img src="hm-images/126 over 50 calc result.png"/></td>
+            <td><img src="hm-images/126 over 50 ingame result.png"/></td>
+          </tr>
+          <tr>
+            <td><img src="hm-images/94 over 50 stats.png"/></td>
+            <td><img src="hm-images/94 over 50 calc result.png"/></td>
+            <td><img src="hm-images/94 over 50 ingame result.png"/></td>
+          </tr>
+          <tr>
+            <td><img src="hm-images/57 over 25 stats.png"/></td>
+            <td><img src="hm-images/57 over 25 calc result.png"/></td>
+            <td><img src="hm-images/57 over 25 ingame result.png"/></td>
+          </tr>
+        </table>
+
+        <br/>
+        (Although I am only showing these, I have a spreadsheet with other cases.
+        <br/>All of these other cases were selcted by finding ATK-DEF pairs that would result in this error, and then checking whether this issue would appear in-game with said pair.
+        <br/>Each prediction gave the same lossy conversion error shown above.)
+      </div>
+
+      <h1 class="hm" id="damage">
+        Explaining Damage Inconsistency
+      </h1>
+      <p>
+        In the past, I noted that Mojo Storm, Mojo Blast, and Mojo Strike were using base Damage amounts outside of what was stated.
+        <br/>However, I did not have an explanation back then.
+
+        <br/>Now, though, I've concluded that there is a hidden factor to these Powers' Damage ー Accuracy and Dodge.
+        <br/>The game uses a variation of the bonus Critical formula, plugging in the
+        <span class="blue">attacker's Accuracy in for ATK</span> and the
+        <span class="red">enemy's Dodge in for DEF</span>.
+
+        <br/><br/>
+        ...so, the formula becomes:
+        <br/><br/>
+        <span style="margin-left: 20px"/>
+        <span class="green">
+          Acc-Dodge Comp
+        </span> = 0.125 × (<span class="blue">Accuracy</span> / <span class="red">Dodge</span> - 1),
+        <br/>
+        <table style="margin-left: 20px">
+          where:
+          <tr><td>-<br/>&nbsp;</td>
+            <td class="green">
+              Acc-Dodge Comp is short for Accuracy-Dodge Comparison
+              <br/>(comparing your Accuracy and your enemy's Dodge),
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td class="blue">Accuracy refers to the attacker's Accuracy, and</td>
+          </tr>
+          <tr><td>-</td>
+            <td class="red">Dodge refers to the enemy's Dodge.</td>
+          </tr>
+        </table>
+
+        <br/>
+        Like the previous formula, it ranges from 0 to 0.25.
+        <br/>Here, though, it is used as a <i>hidden multiplier boost</i> towards the base Damage amount.
+
+        <br/>
+        <table style="margin-left: 20px">
+          This comparison is used as part of the base Damage formula for:
+          <tr><td>-</td>
+            <td>
+              Mojo AoEs: Mojo Storm, Mojo Blast, Mojo Strike
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              ALL trainable Musketeer trick shots
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              initial hit of Musketeer's Trap Powers:
+              <br/>Tempest of Torpedoes, Hail of Cannonballs, Rain of Mortarshells
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              initial hit of Artillery, The Big Guns
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              Hurl Knives
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              some untrainable Powers: Blunderbuss Shot, Scatterblast
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        This explains the Non-Musket Mojo Storm / Blast / Strike Damage inconsistency phenomenon I posted about over 2 years ago.
+        <br/>(I checked this myself, but I didn't keep detailed notes, instead using a quickly-made spreadsheet calculator to check values.)
+
+        <h2 class="hm">
+          Example: Mojo Storm
+        </h2>
+        <p>
+          To get an idea of how this is used, here's an example:
+          <br/>Let's say my Privateer casts Mojo Storm on a Level 56 Cyclops in Illios.
+          <br/><span class="blue">He has 131 Accuracy</span>, while
+          <span class="red">the Cyclops has 101 Dodge</span>.
+          <br/>Also, my Privateer has 274 Spell Power and 119 Will, and the Cyclops has 0 Magic Resist.
+
+          <br/>
+          <table style="margin-left: 20px">
+            Plugging in <span class="blue">131 for Accuracy</span> and
+            <span class="red">101 for Dodge</span>:
+            <tr>
+              <td><span class="green">
+                Acc-Dodge Comp
+                </span>
+              </td>
+              <td>
+                = 0.125 × (<span class="blue">Accuracy</span> / <span class="red">Dodge</span> - 1)
+              </td>
+            </tr>
+            <tr><td></td>
+              <td>
+                = 0.125 × (<span class="blue">131</span> / <span class="red">101</span> - 1)
+              </td>
+            </tr>
+            <tr><td></td>
+              <td>
+                ~ <span class="green">0.03713</span>
+              </td>
+            </tr>
+          </table>
+
+          <br/>Next, Mojo Storm's base damage is:
+          <br/><br/>
+          <span style="margin-left: 20px"/>base = 1.5 × [Spell Power] × (1 +
+          [<span class="green">Acc-Dodge Comp</span>] + 0.002 × Will),
+
+          <br/><br/>
+          <table style="margin-left: 20px">
+            where:
+            <tr>
+              <td>-</td>
+              <td>
+                base refers to the Power's base Damage,
+              </td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>
+                Spell Power refers to the attacker's Spell Power,
+              </td>
+            </tr>
+            <tr>
+              <td>-<br/>&nbsp;</td>
+              <td>
+                <span class="green">Acc-Dodge Comp refers to the result from above,
+                <br/>comparing the attacker's Accuracy to the defender's Dodge</span>, and
+              </td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>
+                Will refers to the caster's Will.
+              </td>
+            </tr>
+          </table>
+
+          <br/>
+          <table style="margin-left: 20px">
+            Plugging in <span class="green">0.03713 for Acc-Dodge Comp</span>, 274 for Spell Power, and 119 for Will:
+            <tr>
+              <td>base</td>
+              <td>
+                = 1.5 × [Spell Power] × (1 +
+                [<span class="green">Acc-Dodge Comp</span>] + 0.002 × Will)
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                = 1.5 × 274 × (1 +
+                [<span class="green">0.03713</span>] + 0.002 × 119)
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                = 524.07843 → 524
+              </td>
+            </tr>
+          </table>
+
+          <br/>
+          ...which is exactly what happens in-game:
+          <center><iframe src="https://www.youtube.com/embed/gA80OoPdimY"></iframe></center>
+        </p>
+      </p>
+
+      <h1 class="hm" id="heal">
+        Explaining Healing Inconsistency
+      </h1>
+      <p>
+        You might be aware that healing rarely uses the stated base amount.
+        <br/>(I've known this for years, but didn't find out why until recently.)
+
+        <br/><br/>
+        Regarding that, I've concluded that healing has its own variation of a hidden multiplier boost.
+        <br/>It gets an ally's maximum and current Health, and compares them in the same formula to obtain a hidden multiplier boost, which affects the healing that unit receives.
+
+        <br/><br/>
+        As such, this variation of the formula is:
+        <br/><br/>
+        <span style="margin-left: 20px"/><span class="green">HP% Comp</span> = 0.125 ×
+        (<span class="blue">MaxHP</span> / <span class="red">HP</span> - 1),
+
+        <br/>
+        <table style="margin-left: 20px">
+          where:
+          <tr>
+            <td>-<br/>&nbsp;</td>
+            <td>
+              <span class="green">HP% Comp is short for Health Percentage Comparison
+              <br/>(comparing max. Health to current Health, basically 1 / health%)</span>,
+            </td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>
+              <span class="blue">MaxHP refers to the unit's maximum Health</span>, and
+            </td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>
+              <span class="red">HP refers to the unit's current Health (at time of casting)</span>.
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        Like the other versions, it's bounded between 0 and 0.25.
+        <br/>Similar to the version used for Powers, it is used as a hidden multiplier boost.
+
+        <br/><br/>
+        <table>
+          How this value is applied depends on the healing:
+          <tr>
+            <td>
+              <right>Privateers' heals<br/>&nbsp;</right>
+            </td>
+            <td>
+              → used as a hidden multiplier boost
+              <br/>&emsp;&nbsp;(same as Powers)
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: right">
+              "Drains"
+            </td>
+            <td>
+              → used as part of a direct multiplier to these Powers' healing
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: right">
+              Second Wind<br/>&nbsp;
+            </td>
+            <td>
+              → used as a direct multiplier to maximum Health
+              <br/>&emsp;&nbsp;(the 50% variant multiplies this result by 2)
+            </td>
+          </tr>
+        </table>
+
+        <h2 class="hm">
+          Example: Privateer Heals
+        </h2>
+        Suppose I want to use a Revive on myself.
+        <br/>I have <span class="red">1539</span> / <span class="blue">3075</span>
+        Health, as well as 274 Spell Power and 119 Will.
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          We'll need <span class="green">HP% Comp</span>, which is:
+          <tr>
+            <td><span class="green">
+              HP% Comp
+              </span>
+            </td>
+            <td>
+              = 0.125 × (<span class="blue">MaxHP</span> / <span class="red">HP</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 0.125 × (<span class="blue">3075</span> / <span class="red">1539</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              ~ <span class="green">0.1248</span>
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        The formula for Revive's initial heal is:
+        <br/><br/>
+        <span style="margin-left: 20px"/>base = 1.5 × [Spell Power] × (1 +
+        [<span class="green">HP% Comp</span>] + 0.002 × Will),
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          where:
+          <tr>
+            <td>-</td>
+            <td>
+              base refers to the heal's base amount,
+            </td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>
+              Spell Power refers to the caster's Spell Power,
+            </td>
+          </tr>
+          <tr>
+            <td>-<br/>&nbsp;</td>
+            <td>
+              <span class="green">HP% Comp refers to the result from earlier,
+              <br/>using the ally's Health percentage</span>, and
+            </td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>
+              Will refers to the caster's Will.
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        <table style="margin-left: 20px">
+          Plugging in <span class="green">0.1248 for HP% Comp</span>, 274 for Spell Power, and 119 for Will:
+          <tr>
+            <td>base</td>
+            <td>
+              = 1.5 × [Spell Power] × (1 +
+              [<span class="green">HP% Comp</span>] + 0.002 × Will)
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              = 1.5 × 274 × (1 +
+              [<span class="green">0.1248</span>] + 0.002 × 119)
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              = 560.1108 → 560
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        ...which is the exact amount shown at 0:14 in this clip:
+        <center><iframe src="https://www.youtube.com/embed/ZovNvSkixqM"></iframe></center>
+
+
+        <h2 class="hm">
+          Example: "Drains"
+        </h2>
+        This same formula affects "drains" in a different way, so here's an example.
+        <br/>Near the end of a battle in Devilfish Hollow, I used a Jobu's Embrace on a Spider with 0 Resist.
+        <br/>I landed a Mega hit and had <span class="red">2661</span>
+        / <span class="blue">2875</span> Health prior to the cast.
+        <br/>In this case, I also have 327 Spell Power and 118 Will.
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          This scenario's <span class="green">HP% Comp</span> is:
+          <tr>
+            <td><span class="green">
+              HP% Comp
+              </span>
+            </td>
+            <td>
+              = 0.125 × (<span class="blue">MaxHP</span> / <span class="red">HP</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 0.125 × (<span class="blue">2875</span> / <span class="red">2661</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              ~ <span class="green">0.01005</span>
+            </td>
+          </tr>
+        </table>
+
+        Next, here's the formula for the healing part of Jobu’s Embrace:
+        <br/><br/>
+        <span style="margin-left: 20px"/>heal = 0.75 × ([Spell Power] × (1 + 0.002 * Will)
+        × multi - [Enemy Resist])
+        <br/><span style="margin-left: 73px"/>× (1 + [<span class="green">HP% Comp</span>]),
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          where:
+          <tr><td>-</td>
+            <td>
+              heal refers to the base healing amount,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              Spell Power refers to the user's Spell Power,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              Will refers to the user's Will,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              multi refers to the Damage / Critical multiplier used,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              Enemy Resist refers to the enemy's Resist roll, and
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              HP% Comp refers to the result from above,
+              <br/>comparing how healthy the user is to get a healing boost.
+            </td>
+          </tr>
+        </table>
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          Plugging in <span class="green">0.01005 for HP% Comp</span>,
+          as well as 327 for Spell Power, 118 for Will,
+          1.66 for multi (Mega Critical), and 0 for Enemy Resist:
+          <tr><td>heal<br/>&nbsp;</td>
+            <td>
+              = 0.75 × ([Spell Power] × (1 + 0.002 * Will)
+              × multi - [Enemy Resist])
+              <br/>&emsp;&nbsp;× (1 + [<span class="green">HP% Comp</span>])
+            </td>
+          <tr/>
+          <tr><td></td>
+            <td>
+              = 0.75 × (327 × (1 + 0.002 * W118)
+              × 1.66 - 0)
+              <br/>&emsp;&nbsp;× (1 + [<span class="green">0.01005</span>])
+            </td>
+          </tr>
+          <tr><td></td>
+            <td> 
+              ~ 508.2512 → 508
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        ...which is the exact amount healed here:
+        <center><iframe src="https://www.youtube.com/embed/Yua-c1GB-Cg"></iframe></center>
+
+        <h2 class="hm">
+          Example: Second Wind (25%)
+        </h2>
+        With Second Wind, this formula applies as a direct multiplier to total Health.
+        <br/>This result is doubled if using the 50% version of Second Wind.
+
+        <br/><br/>
+        As an example....
+        <br/>At the end of a fight, I have <span class="red">2269</span>
+        / <span class="blue">3149</span> Health.
+        <br/>I have Bonnie Anne heal me with Second Wind (25%).
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          The <span class="green">HP% Comp</span> here is:
+          <tr>
+            <td><span class="green">
+              HP% Comp
+              </span>
+            </td>
+            <td>
+              = 0.125 × (<span class="blue">MaxHP</span> / <span class="red">HP</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 0.125 × (<span class="blue">3149</span> / <span class="red">2269</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              ~ <span class="green">0.04848</span>
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        <table style="margin-left: 20px">
+          Thus, Second Wind's healing becomes:
+          <tr><td>Healing</td>
+            <td>
+              = MaxHP × [<span class="green">HP% Comp</span>]
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 3149 × <span class="green">0.04848</span>
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              ~ 152.6620 → 152 Health
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        ...which matches the amount shown here:
+        <center><iframe src="https://www.youtube.com/embed/L8xkjRO86og"></iframe></center>
+      </p>
+
+      <h1 class="hm" id="ekusupuro-----jon">
+        Explosive!
+      </h1>
+      <p>
+        Interestingly enough, this Epic Talent uses a different variant of that hidden formula.
+        <br/>Tt compares the <span class="blue">user's maximum Health</span> to the
+        <span class="red">target's current Health</span> to determine the multiplier used.
+
+        <br/><br/>
+        This variant of the formula is:
+        <br/><br/>
+        <span style="margin-left: 20px"/><span class="green">ExplComp</span>
+        = 0.125 × ([<span class="blue">user's MaxHP</span>]
+        / [<span class="red">target's HP</span>] - 1),
+
+        <table style="margin-left: 20px">
+          where:
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              <span class="green">ExplComp is the result, short for Explosive! Comparison
+              <br/>(as this is the only place where this specific comparison is used)</span>,
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              <span class="blue">user's MaxHP refers to the maximum Health of the unit with this Epic Talent
+              <br/>(typically an Iron Golem or Terror-Cotta Warrior)</span>, and
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              <span class="red">target's HP refers to the target's Health</span>.
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        Suppose you're bored, and you want to explode a few Barricades in the middle of a fight.
+        <br/>You use Gracie's Construct Golem Power to summon a Level 62 Golem.
+        <br/>This Golem has 220 Weapon Power and a ×0.5 innate multiplier (for now, just note it exists).
+        <br/>It also has <span class="blue">1130 Health</span>.
+        <br/>The targets are Barricades with <span class="red">967 Health</span>.
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          The <span class="green">ExplComp</span> turns out to be...
+          <tr><td class="green">ExplComp</td>
+            <td>
+              = 0.125 × ([<span class="blue">user's MaxHP</span>]
+              / [<span class="red">target's HP</span>] - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 0.125 × (<span class="blue">1130</span>
+              / <span class="red">967</span> - 1)
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              ~ <span class="green">0.02107</span>
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        Then, the base formula for Explosive! is:
+        <br/><br/>
+        <span style="margin-left: 20px/>base = [Weapon Power] × (1
+        + <span class="green">ExplComp</span>) × [innate multi],
+
+        <br/></br>
+        <table style="margin-left: 20px">
+          where:
+          <tr><td>-</td>
+            <td>
+              base refers to base Damage,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              Weapon Power refers to the user's Weapon Power,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              <span class="green">ExplComp refers to the comparison from above</span>, and
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              innate multi refers to a constant used in Damage calculation
+              <br/>(mostly for summons since that's where they're used; it's generally omitted otherwise).
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        <table style="margin-left: 20px">
+          Plugging in <span class="green">0.02107 for ExplComp</span>,
+          220 for Weapon Power, and 0.5 for innate multi, we get:
+          <tr><td>base</td>
+            <td>
+              = [Weapon Power] × (1 + <span class="green">ExplComp</span>) × [innate multi]
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 220 × (1 + <span class="green">0.02107</span>) × 0.5
+            </td>
+          </tr>
+          <tr><td></td>
+            <td>
+              = 112.3177
+            </td>
+          </tr>
+        </table>
+
+        <br/>
+        Finally, the attack landed a Super Critical hit, so the actual Damage dealt is:
+        <br/><br/><span style="margin-left: 20px"/>112.3177 × 2 = 224.6354 → 224
+
+        <br/><br/>
+        ...which is the exact amount shown here:
+        <center><iframe src="https://www.youtube.com/embed/CaznVPSjd-U"></iframe></center>
+      </p>
+
+      <h1 class="hm" id="general">
+        A General Formula
+      </h1>
+      <p>
+        The four variations above are almost identical ― their only difference is what two stats are plugged in / compared.
+
+        <br/>
+        <table style="margin-left: 20px">
+          This general formula compares two stats:
+          <tr><td>-</td>
+            <td>
+              Crit+: <span class="blue">attacker's main stat amount</span>,
+              <span class="red">defender's amount of same stat</span>
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              Acc-Dodge Comp: <span class="blue">attacker's Accuracy</span>,
+              <span class="red">target's Dodge</span>
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              HP% Comp: <span class="blue">ally's MaxHP</span>,
+              <span class="red">ally's HP</span>
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              ExplComp: <span class="blue">user's MaxHP</span>,
+              <span class="red">target's HP</span>
+            </td>
+          </tr>
+        </table>
+
+        Now, to define this general formula:
+        <br/><br/>
+        <span style="margin-left: 20px"/>compare(stat1, stat2) = 0.125 × (stat1 / stat2 - 1),
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          where:
+          <tr><td>-</td>
+            <td>
+              <span class="green">compare(stat1, stat2) is the result of comparing stat1 to
+              stat2</span>,
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              <span class="blue">stat1 is the first stat to compare</span>, and
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              <span class="red">stat2 is the second stat to compare</span>.
+            </td>
+          </tr>
+        </table>
+        <span class="blue">stat1</span> is compared to <span class="red">stat2</span>,
+        and <b>yes, order does matter here.</b>
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          Note:
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              Crit+ has been tested, and has consistent errors through testing.
+              <br/>Data can be viewed here: <a href="https://docs.google.com/spreadsheets/d/1Vr7KlYT6lVl7IoLHJjGrInzvZdYAIJqZ7tqghOLE-pk/">
+                Bonus Critical Chance Inaccuracy Testing Sheet
+              </a>
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              It is known that HP% Comp may have errors (see the HP% Comp example below).
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              Acc-Dodge Comp might not have errors, but needs more testing
+              <br/>(see the Acc-Dodge Comp example below).
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              ExplComp has not been tested for potential errors.
+            </td>
+          </tr>
+        </table>
+        <br/>
+        <table style="margin-left: 20px">
+          Investigated cases (aside from the above; videos have calculation in description):
+          <tr><td>-</td>
+            <td>
+              <a href="https://www.youtube.com/watch?v=bTbbH5GEkas">HP% Comp ex.1</a>
+            </td>
+          </tr><td>-</td>
+            <td>
+              <a href="https://www.youtube.com/watch?v=YEbRsU71pCo">Acc-Dodge Comp ex.1</a>
+            </td>
+        </table>
+
+        <br/><br/>
+        <table style="margin-left: 20px">
+          Using this, you can define the other formulas easily:
+          <tr><td>-<br/><br/><br/>&nbsp;</td>
+            <td>
+              <span class="green">Crit+</span> =
+              <span class="green">compare(<span class="blue">ATK</span>,
+              <span class="red">DEF</span>)</span>,
+              <br/>where
+              <br/><span style="margin-left: 20px"/>-
+              <span class="blue">ATK = attacker's main stat amount</span>
+              <br/><span style="margin-left: 20px"/>-
+              <span class="red">DEF = defender's amount of same stat</span>
+            </td>
+          </tr>
+          <tr><td>-<br/><br/><br/>&nbsp;</td>
+            <td>
+              <span class="green">Acc-Dodge Comp</span> =
+              <span class="green">compare(<span class="blue">Accuracy</span>,
+              <span class="red">Dodge</span>)</span>,
+              <br/>where
+              <br/><span style="margin-left: 20px"/>-
+              <span class="blue">Accuracy = attacker's Accuracy</span>
+              <br/><span style="margin-left: 20px"/>-
+              <span class="red">Dodge = target's Dodge</span>
+            </td>
+          </tr>
+          <tr><td>-<br/><br/><br/>&nbsp;</td>
+            <td>
+              <span class="green">HP% Comp</span> =
+              <span class="green">compare(<span class="blue">MaxHP</span>,
+              <span class="red">HP</span>)</span>,
+              <br/>where
+              <br/><span style="margin-left: 20px"/>-
+              <span class="blue">MaxHP = ally's maximum Health</span>
+              <br/><span style="margin-left: 20px"/>-
+              <span class="red">HP = ally's current Health</span>
+            </td>
+          </tr>
+          <tr><td>-<br/><br/><br/>&nbsp;</td>
+            <td>
+              <span class="green">ExplComp</span> =
+              <span class="green">compare(<span class="blue">user's MaxHP</span>,
+              <span class="red">target's HP</span>)</span>,
+              <br/>where
+              <br/><span style="margin-left: 20px"/>-
+              <span class="blue">user's MaxHP = user's maximum Health</span>
+              <br/><span style="margin-left: 20px"/>-
+              <span class="red">target's HP = target's current Health</span>
+            </td>
+          </tr>
+        </table>
+      </p>
+
+      <h1 class="hm" id="summary">
+        Summary
+      </h1>
+      <p>
+        <table style="margin-left: 20px">
+          This article dives into an explanation for how bonus Critical Chance works,
+          <br/>revealing a hidden formula, and looks into other things that use it.
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              We defined a function that compares two stats, bounded between 0 and 0.25:
+              <br/><span style="margin-left: 20px"/><span class="green">compare(stat1, stat2)</span>
+              = 0.125 * (<span class="blue">stat1</span>
+              / <span class="red">stat2</span> - 1)
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              Bonus Critical Chance compares the <span class="blue">attacker's main stat amount</span>
+              to the<br/><span class="red">defender's amount of the same stat</span>.
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              A hidden multiplier for various Powers compares the
+              <span class="blue">attacker's Accuracy</span> to the
+              <br/><span class="red">target's Dodge</span>.
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              A boost for various heals compares the selected
+              <span class="blue">ally's maximum Health</span> to their
+              <br/><span class="red">current Health</span>.
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              Part of the multiplier for Explosive! compares the
+              <span class="blue">user's maximum Health</span> to the
+              <br/><span class="red">target's current Health</span>.
+            </td>
+          </tr>
+        </table>
+      </p>
+
+      <h1 class="hm" id="arigatou">
+        Special Thanks
+      </h1>
+      <p>
+        <table style="margin-left: 20px">
+          Special thanks go to:
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              <a href="https://www.twitch.tv/ultzx" target="_blank">ultzx</a>, for bringing attention to Mojo AoE damage inconsistency
+              <br/>&ensp;+ helping make my abilities guide spreadsheet more available
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              Willowdreamer and Jester of Pirate101Central, for helping out with
+              <br/>image embedding issues when making the P101C version of this post
+            </td>
+          </tr>
+          <tr><td>-</td>
+            <td>
+              <a href="https://www.twitch.tv/senor_spicy_" target="_blank">Senor_Spicy_</a>, for helping make my abilities guide spreadsheet more available
+            </td>
+          </tr>
+          <tr><td>-<br/>&nbsp;</td>
+            <td>
+              <b>YOU</b>, for giving me the reason to write this article in the first place
+              <br/>instead of keeping this knowledge to myself
+            </td>
+          </tr>
+        </table>
+
+        <br/><br/>
+        <center>
+          Thank you for reading!
+          <br/>If you have questions, please let me know, and I will try to answer to the best of my ability!
+          <br/>(You can contact me through <a href="https://discord.gg/bHvxZur" target="_blank">Senor_Spicy_'s Discord server</a>.
+          <br/><br/>Until the next post, happy Piratin', and stay safe out there!～
+        </center>
+      </p>
+    </div>
+
+    <span class="bth">
+      <a href="https://cody-nightblade.github.io">Home Page</a>
+      <hr/><a href="#top">Back to Top</a>
+    </span>
+
+    </div>
+  </body>
+</html>
