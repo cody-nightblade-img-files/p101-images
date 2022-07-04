@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css"/>
+
+    <style>
+      .creator input { width: auto; box-shadow: none; color: black; }
+      .creator textarea {
+        width: 180px;
+        resize: none;
+      }
+      .icon {
+        vertical-align: middle; padding-bottom: 4px; padding-left: 1px;
+        max-width: 16px;
+      }
+      .iconL {
+        vertical-align: middle; padding-bottom: 4px; padding-left: 2px;
+        max-width: 20px;
+      }
+      #inf {
+        position: absolute;
+        top: 48px;
+        left: 97px;
+      }
+      .creator select { width: 175px; }
+
+      #img-src { width: 180px; border: 0px solid transparent;
+        border-radius: 0px; background-color: transparent;}
+
+      #title,#desc { font-family: Arial; }
+      #title { height: 20px; }
+      #desc { height: 60px; }
+      #top-left-icon { position: absolute; top: 47px; left: 10px; max-width: 32px; }
+      #top-right-icon { position: absolute; top: 43px; left: 109px; max-width: 32px; }
+      #bottom-left-icon { position: absolute; top: 137px; left: 10px; max-width: 32px; }
+      #bottom-right-icon { position: absolute; top: 137px; left: 110px; max-width: 32px; }
+
+      #fc,#tr,#bl,#br { width: 30px; }
+      #tl-text,#tr-text,#bl-text,#br-text{
+        position: absolute;
+        width: 54px;
+        resize: none;
+        padding: 0px;
+        font-family: shermlock;
+        font-size: 15px;
+        color: white;
+
+        transform: scale(1, 0.8);
+
+        text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+          0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+      }
+      #tl-text { top: 57px; left: 11px; }
+      #tr-text { top: 57px; left: 87px; }
+      #bl-text { top: 150px; left: 11px; }
+      #br-text { top: 150px; left: 87px; }
+
+      #zoom-input { width: 40px; }
+
+      #rnk { width: 100px; }
+      #rnk-text {
+        position: absolute;
+        top: 233px;
+        left: 11px;
+        width: 132px;
+        height: 20px;
+        padding: 0px;
+        font-family: "Comic Sans MS";
+        font-size: 12px;
+        font-weight: 600;
+        overflow: hidden;
+        text-shadow: none;
+        cursor: context-menu;
+      }
+
+      #resultTitle {
+        position: absolute;
+        top: 12px;
+        left: 10px; /* ttl width: 152px */
+        width: 132px;
+        resize: none;
+        padding: 0px;
+
+        font-family: shermlock, Arial;
+        font-size: 15px;
+        color: #FCEF01;
+        text-align: center;
+        letter-spacing: 0.5px;
+        line-height: 15px;
+
+        transform: scale(1, 0.8);
+
+        background-color: transparent;
+        border: 0px solid transparent;
+        readonly: true;
+        resize: none;
+        outline: none;
+        overflow: hidden;
+
+        cursor: context-menu;
+      }
+
+      #resultDescCont {
+        position: absolute;
+        top: 169px;
+        left: 9.5px;
+        width: 132px;
+        max-width: 132px;
+        height: 74px;
+
+        display: table;
+      }
+
+      #centering {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      #resultDesc {
+        margin-left: auto;
+        margin-right: auto;
+        width: 128px;
+        max-height: 74px;
+        padding: 0px;
+
+        font-family: "Comic Sans MS", Arial;
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 600;
+        color: black;
+        text-align: center;
+        overflow: hidden;
+
+        cursor: context-menu;
+
+      }
+
+      #main-image-wrapper {
+        position: absolute;
+        top: 45px;
+        left: 17px;
+        width: 119px;
+        height: 119px;
+        cursor: grab;
+        overflow: auto;
+
+        -ms-overflow-style: none; /* for Internet Explorer, Edge */
+        scrollbar-width: none; /* for Firefox */
+      }
+      #main-image-wrapper::-webkit-scrollbar { display: none; }
+
+      #main-image-frame {
+        position: absolute;
+        top: 44px;
+        left: 16px;
+        width: 121px;
+        height: 121px;
+      }
+
+      #hovertext {
+        position: absolute;
+
+        font-family: 'Comic Sans MS';
+        font-size: 14px;
+        color: white;
+        text-align: right;
+        white-space: nowrap;
+
+        text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black,
+            0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
+      }
+
+      #bg-download { color: blue; }
+    </style>
+  </head>
+
+  <body class="creator" onload="initialize()">
+    <script>
+      const title_space = " "; // actual space: 1/6 em
+//      const title_space = " "; // normal space
+      function isUpperCase(c) { return c == c.toUpperCase(); }
+
+      const key_icon = [
+        // Stats ----------------------------------
+        ["[health]", "Health_L.png"],
+        ["[weapon-power]", "Weapon Power_L.png"],
+        ["[spell-power]", "Spell Power_L.png"],
+        ["[strength]", "Strength_L.png"],
+        ["[agility]", "Agility_L.png"],
+        ["[will]", "Will_L.png"],
+        ["[accuracy]", "Accuracy_L.png"],
+        ["[dodge]", "Dodge_L.png"],
+        ["[haste]", "Movement_L.png"],
+        ["[range]", "Range_L.png"],
+        ["[critical]", "Critical_L.png"],
+
+        // Damage ---------------------------------
+        ["[phys-dmg]", "Physical Damage_L.png"],
+        ["[magic-dmg]", "Magical Damage.png"],
+        ["[armor]", "Armor_L.png"],
+        ["[resist]", "Resist_L.png"],
+        ["[pierce]", "Armor Piercing_L.png"],
+        ["[poison]", "Poison.png"],
+        ["[bleeding]", "Bleeding.png"],
+
+        // Effects ---------------------------------
+        ["[buff]", "Buff_L.png"],
+        ["[debuff]", "Debuff_L.png"],
+        ["[rounds]", "Duration.png"],
+        ["[dice]", "Dice_L.png"],
+        ["[talent]", "Talent Rank.png"],
+        ["[threat]", "Threat Generation_L.png"],
+
+        // Weapon Types ---------------------------------
+        ["[slashy]", "Melee_L.png"],
+        ["[smashy]", "Smashy Weapon.png"],
+        ["[stabby]", "Stabby Weapon.png"],
+        ["[shooty]", "Shooty Weapon.png"],
+        ["[staffy]", "Staffy Weapon.png"],
+
+        // Class Traps ---------------------------------
+        ["[claw-trap]", "Claw Trap.png"],
+        ["[bear-trap]", "Bear Trap.png"],
+        ["[scatter-spike]", "Scatter Spike Trap.png"],
+        ["[musket-trap]", "Musketeers Trap.png"],
+        ["[bonfire]", "Bonfire Trap.png"],
+
+        // Other Traps ---------------------------------
+        ["[blood-flames]", "Blood Flames.png"],
+        ["[spike-trap]", "Singular Spike Trap.png"],
+        ["[starfish]", "Starfish.png"],
+        ["[storm-cloud]", "Storm Cloud.png"],
+
+        // Obstacles   ---------------------------------
+        ["[barricade]", "Barricade.png"],
+        ["[powder-keg]", "Powder Keg.png"],
+        ["[ice-wall]", "Ice Obstacle.png"],
+        ["[stone-wall]", "Stone Obstacle_L.png"],
+
+        // Summons -------------------------------------
+        ["[skeletal-pirate]", "Skeletal Pirate.png"],
+        ["[skeletal-corsair]", "Skeletal Corsair.png"],
+        ["[bone-drake]", "Bone Drake.png"],
+        ["[skeleton-hoplite]", "Skeleton Hoplite.png"],
+        ["[skeletal-warrior]", "Skeletal Warrior.png"],
+        ["[golem]", "Golem.png"],
+        ["[crab-crawlie]", "Crab Crawlie.png"],
+        ["[scorpion]", "Scorpion.png"],
+        ["[lagooney]", "Lagooney.png"],
+        ["[cherry-treant]", "Cherry Blossom Treant.png"],
+        ["[blue-oni]", "Blue Oni.png"],
+        ["[terracotta]", "Terracotta Warrior.png"],
+        ["[terror-cotta]", "Terror-cotta Warrior.png"],
+
+        // Other ---------------------------------------
+        ["[aoe]", "AoE.png"],
+        ["[haste2]", "Movement specify.png"],
+        ["[range2]", "Range specify.png"],
+        ["[bonus-on-enemy]", "Bonus Effects on Enemy Territory.png"],
+        ["[flank]", "must flank the enemy.png"],
+
+        // W101 Icons ----------------------------------
+        ["[drain]", "W101 Drain_L.png"],
+        ["[incoming]", "W101 Incoming_L.png"],
+        ["[outgoing]", "W101 Outgoing_L.png"],
+        ["[afterlife]", "W101 Afterlife_L.png"]
+      ];
+
+      let title = "";
+      let desc = "";
+
+      function initialize() {
+        updateBG();
+      }
+
+      function updateBG() {
+        let nextAbility = document.getElementById("ability-type").value;
+        if (nextAbility == "power") {
+          document.getElementById("bg").src = "ability-creator-images/power-template.png";
+          document.getElementById("resultDescCont").style.height = "74px";
+          document.getElementById("resultDesc").style.maxHeight = "74px";
+          document.getElementById("rnk-wrapper").hidden = true;
+          document.getElementById("rnk-text").hidden = true;
+        } else {
+          document.getElementById("bg").src = "ability-creator-images/talent-template.png";
+          document.getElementById("resultDescCont").style.height = "62px";
+          document.getElementById("resultDesc").style.maxHeight = "62px";
+          document.getElementById("rnk-wrapper").hidden = false;
+          document.getElementById("rnk-text").hidden = false;
+        }
+        document.getElementById("bg-download").href = document.getElementById("bg").src;
+        updateRank();
+      }
+
+      function changeTitleFontSize() {
+        let newsz = "15px";
+        if (document.getElementById("fonttoggle").checked) { newsz = "10px"; }
+        document.getElementById("resultTitle").style.fontSize = newsz;
+      }
+
+      function updateRank() {
+        let tx = document.getElementById("rnk").value;
+        document.getElementById("rnk-text").innerHTML = "Rank " + tx;
+      }
+
+      function updateTitle() {
+        title = document.getElementById("title").value;
+        title = title.replaceAll(" ", title_space);
+        document.getElementById("resultTitle").value = title;
+      }
+
+      function updateTextBL() {
+        let tx = document.getElementById("bl").value;
+        document.getElementById("bl-text").innerHTML = tx;
+      }
+
+      function updateTextBR() {
+        let tx = document.getElementById("br").value;
+        document.getElementById("br-text").innerHTML = tx;
+      }
+
+      function updateTextTL() {
+        let tx = document.getElementById("fc").value;
+        document.getElementById("tl-text").innerHTML = tx;
+      }
+
+      function updateTopLeftIcon() {
+        let newic = "";
+        let vis = false;
+        let ic = document.getElementById("top-left").value;
+        if (ic !== "none") { vis = true; }
+        if (ic == "fc") {
+          newic = "ability-creator-images/icons/Fire Count X_L.png";
+        }
+        if (ic == "duration") {
+          newic = "ability-creator-images/icons/Duration_L.png";
+        }
+
+        document.getElementById("fc-wrapper").hidden = !vis;
+        document.getElementById("tl-text").hidden = !vis;
+        document.getElementById("top-left-icon").src = newic;
+
+        updateTextTL();
+      }
+
+      function updateTextTR() {
+        let tx = document.getElementById("tr").value;
+        if (tx == "inf") {
+          document.getElementById("tr-text").hidden = true;
+          document.getElementById("inf").hidden = false;
+        } else {
+          document.getElementById("tr-text").innerHTML = tx;
+          document.getElementById("inf").hidden = true;
+        }
+      }
+
+      function updateTopRightIcon() {
+        let newic = "";
+        let ic = document.getElementById("top-right").value;
+
+        if (ic == "haste") { newic = "ability-creator-images/icons/Movement specify.png"; }
+        if (ic == "range" || ic == "ranged") { newic = "ability-creator-images/icons/Range specify.png"; }
+        if (ic == "melee") { newic = "ability-creator-images/icons/Melee_L.png"; }
+        if (ic == "magic") { newic = "ability-creator-images/icons/Spell Power_L.png"; }
+
+        if (ic == "range" || ic == "haste") {
+          document.getElementById("tr-wrapper").hidden = false;
+          document.getElementById("tr-text").hidden = false;
+        } else {
+          document.getElementById("tr-wrapper").hidden = true;
+          document.getElementById("tr-text").hidden = true;
+        }
+
+        document.getElementById("top-right-icon").src = newic;
+
+        updateTextTR();
+      }
+
+      function updateBottomLeftIcon() {
+        let newic = "";
+        let ic = document.getElementById("bottom-left").value;
+
+        if (ic == "wp") { newic = "ability-creator-images/icons/Weapon Power_L.png"; }
+        if (ic == "sp") { newic = "ability-creator-images/icons/Spell Power_L.png"; }
+        if (ic == "hp") { newic = "ability-creator-images/icons/Health_L.png"; }
+        if (ic == "phys") { newic = "ability-creator-images/icons/Physical Damage_L.png"; }
+        if (ic == "arm") { newic = "ability-creator-images/icons/Armor_L.png"; }
+
+        if (ic == "dice") { newic = "ability-creator-images/icons/Dice_L.png"; }
+        if (ic == "flank") { newic = "ability-creator-images/icons/must flank the enemy.png"; }
+
+        document.getElementById("bottom-left-icon").src = newic;
+      }
+
+      function updateBottomRightIcon() {
+        let newic = "ability-creator-images/lower-right/";
+        let tt = document.getElementById("target-type");
+        let ic = document.getElementById("bottom-right").value;
+        if (ic !== "none" && ic !== "crit") {
+          if (ic == "st") { ic = "single target"; }
+          newic = newic + ic + " " + tt.value + ".png";
+          document.getElementById("target-type-cont").hidden = false;
+        } else {
+          if (ic == "crit") {
+            newic = newic + "Critical_L.png";
+          } else { newic = ""; }
+          document.getElementById("target-type-cont").hidden = true;
+        }
+/*
+        if (ic == "str") { newic = "ability-creator-images/lower-right/single target red.png"; }
+        if (ic == "3x3r") { newic = "ability-creator-images/lower-right/3x3 red.png"; }
+        if (ic == "plusr") { newic = "ability-creator-images/lower-right/plus red.png"; }
+        if (ic == "crossr") { newic = "ability-creator-images/lower-right/cross red.png"; }
+        if (ic == "coner") { newic = "ability-creator-images/lower-right/cone red.png"; }
+        if (ic == "liner") { newic = "ability-creator-images/lower-right/line red.png"; }
+        if (ic == "wallr") { newic = "ability-creator-images/lower-right/wall red.png"; }
+
+        if (ic == "sto") { newic = "ability-creator-images/lower-right/single target orange.png"; }
+        if (ic == "3x3o") { newic = "ability-creator-images/lower-right/3x3 orange.png"; }
+        if (ic == "wallo") { newic = "ability-creator-images/lower-right/wall orange.png"; }
+
+        if (ic == "crit") { newic = "ability-creator-images/lower-right/Critical_L.png"; }
+*/
+
+        document.getElementById("bottom-right-icon").src = newic;
+      }
+
+      function updateDesc() {
+        desc = document.getElementById("desc").value;
+        desc = desc.replaceAll(String.fromCharCode(10),"<br/>");
+
+        replaceDescIcon();
+
+        document.getElementById("resultDesc").innerHTML = desc;
+      }
+
+      function replaceDescIcon() {
+        desc = replaceDescIconInner(desc);
+      }
+
+      function replaceDescIconInner(s) {
+        for (let i = 0; i < key_icon.length; i++) {
+          let nx = key_icon[i];
+          s = customReplace(s, nx[0], nx[1]);
+        }
+
+        return s;
+
+        function customReplace(str, key, fp) {
+          let cl = "icon";
+          if (key == "[talent]" || key == "[buff]" || key == "[debuff]") { cl = "iconL"; }
+          return str.replaceAll(key, "<img class='" + cl + "' src='ability-creator-images/icons/"
+              + fp + "'></img>");
+        }
+      }
+
+      let mainImgSize;
+
+      function updateMainImage() {
+        if (FileReader) {
+          const prev = document.getElementById("main-image");
+          const file = document.getElementById("img-src").files[0];
+          var rd = new FileReader();
+
+          rd.addEventListener("load", function() {
+            prev.src = rd.result;
+
+            let img = new Image();
+            img.src = prev.src;
+            img.addEventListener("load", function() {
+              mainImgSize = { w: img.width, h: img.height };
+              updateMainImageSize();
+            });
+          }, false);
+          if (file) {
+            rd.readAsDataURL(file);
+          }
+        } else { console.log("error, didn't load"); }
+
+        abilityImageDragScroll();
+      }
+
+      function updateMainImageSize() {
+        if (mainImgSize == null) { return; }
+        let img_elem = document.getElementById("main-image");
+
+        let sz = document.getElementById("zoom-input").value / 100;
+
+        sz = Math.max(0.1, Math.min(5, sz));
+        img_elem.style.width = Math.floor(mainImgSize.w * sz) + "px";
+        img_elem.style.height = Math.floor(mainImgSize.h * sz) + "px";
+      }
+
+      /* Image Scrolling with Drag */
+      function abilityImageDragScroll() {
+        const wr = document.getElementById("main-image-wrapper");
+        let mouseD = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        let startDrag = function(e) {
+          let currEle = document.elementFromPoint(e.clientX, e.clientY);
+          let correctEle1 = document.getElementById("main-image");
+          let correctEle2 = document.getElementById("main-image-wrapper");
+          if (currEle != correctEle1 && currEle != correctEle2) { return; }
+          mouseD = true;
+          startX = e.pageX - wr.offsetLeft;
+          startY = e.pageY - wr.offsetTop;
+          scrollLeft = wr.scrollLeft;
+          scrollTop = wr.scrollTop;
+        };
+        let stopDrag = function(e) { mouseD = false; };
+
+        let moveDrag = function(e) {
+          e.preventDefault();
+          if(!mouseD) { return; }
+          const x = e.pageX - wr.offsetLeft;
+          const scrollX = x - startX;
+          wr.scrollLeft = scrollLeft - scrollX;
+          const y = e.pageY - wr.offsetTop;
+          const scrollY = y - startY;
+          wr.scrollTop = scrollTop - scrollY;
+        };
+
+        document.removeEventListener("mousemove", moveDrag, false);
+        document.removeEventListener("mousedown", startDrag, false);
+        document.removeEventListener("mouseup", stopDrag, false);
+
+        document.addEventListener("mousemove", moveDrag, false);
+        document.addEventListener("mousedown", startDrag, false);
+        document.addEventListener("mouseup", stopDrag, false);
+      }
+
+      function toggleFrame() {
+        if (document.getElementById("frame-toggle").checked) {
+          document.getElementById("main-image-frame").hidden = false;
+        } else { document.getElementById("main-image-frame").hidden = true; }
+      }
+
+      // Create hover when over an element
+      let hovering; // src of img element being hovered over
+      document.addEventListener('mousemove', e => {
+        let oldele = hovering;
+        let hoverElement = document.elementFromPoint(e.clientX, e.clientY);
+        if (hoverElement !== null
+            && hoverElement.id !== "main-image" // needed b/c excluding this caused fps issues
+            && hoverElement.tagName == "IMG") {
+          hovering = hoverElement.src;
+          hovering = hovering.replaceAll("%20", " ");
+          hoverAction(e);
+        } else {
+          hovering = "";
+          hoverHide();
+        }
+        }, {passive: true});
+
+      function getMatchingText() {
+        let out = "";
+        for (let i = 0; i < key_icon.length && out == ""; i++) {
+          let nextKey = key_icon[i];
+          if (hovering.indexOf(nextKey[1]) > -1) { out = nextKey[0]; }
+        }
+        return out;
+      }
+
+      function hoverAction(e) {
+        let hov = document.getElementById("hovertext");
+        if (hov == null) { return; } // idk why I got an error with the next line
+        hov.innerHTML = getMatchingText();
+        let hovDims = hov.getBoundingClientRect();
+        let wd = hovDims.width;
+        let mainDims = document.getElementById("creatorbox").getBoundingClientRect();
+        let maxwd = mainDims.x + mainDims.width;
+        hov.style.top = (e.clientY - 30) + "px";
+        hov.style.left = (e.clientX + 10) + "px";
+
+        if (wd + e.clientX + 10 >= maxwd) {
+          hov.style.left = (maxwd - wd) + "px";
+          // hovering on 1st frame can still get the text to align incorrectly
+          // I still don't know why this happens
+          // i give up trying to troubleshoot this any further
+        }
+        hov.hidden = false;
+      }
+
+      function hoverHide() {
+        let hov = document.getElementById("hovertext");
+        if (hov !== null) { hov.hidden = true; }
+      }
+    </script>
+
+    <div class="creatorbox" id="creatorbox">
+
+      <div class="maincont">
+
+      <div>
+        <h1>Pirate101 Abilities Creator</h1>
+        <p>
+          Ever wanted to create a custom Pirate101 Power?
+          <br/>Now, you do that with ease! (mostly)
+          <br/>Just fill in the blanks, and this page does the rest...mostly.
+          <br/>If you want to save your Power, you'll need to screenshot it.
+          <br/>(I don't have time to write an entire custom function to do it for you, sorry.)
+        </p>
+      </div>
+
+      <table style="margin-left: auto; margin-right: auto">
+      <tr>
+      <td>
+
+      <div class="input">
+        <h4>Ability Information</h4>
+        <table>
+          <tr>
+            <td>
+              Ability Type
+            </td>
+            <td class="tdLeft">
+              <select id="ability-type" class="ability-select" onchange="updateBG()">
+                <option value="power">Power</option>
+                <option value="talent">Talent / Epic Talent</option>
+              </select>
+              <span id="rnk-wrapper" hidden><br/>Rank:
+                <input id="rnk" oninput="updateRank()" value="1 of 3"></input>
+              </span>
+              <br/>
+              <a id="bg-download" target="_blank" download>Download Template</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Image<br/><br/>&nbsp;
+            </td>
+            <td>
+              <input id="img-src" type="file" accept="image/png, image/jpeg" onchange="updateMainImage()"></input>
+              <br/>
+              Image zoom:<input type="number" id="zoom-input" value="100" min="10" max="500" oninput="updateMainImageSize()" style="text-align: right"></input>%
+              <br/>
+              <input type="checkbox" class="checkboxbox" id="frame-toggle" onclick="toggleFrame()">
+                <span class="even-smaller">Show Power frame + disable img scroll</span>
+              </input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Title<br/>&nbsp;
+            </td>
+            <td class="tdLeft">
+              <textarea id="title" oninput="updateTitle()"></textarea>
+              <br/>
+              <input type="checkbox" id="fonttoggle" onclick="changeTitleFontSize()">Use small text?</input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Upper-Left Icon
+            </td>
+            <td class="tdLeft">
+              <select id="top-left" class="upper-left-select" onchange="updateTopLeftIcon()">
+                <option value="none">none</option>
+                <option value="fc">Fire Count</option>
+                <option value="duration">Duration</option>
+              </select>
+              <span id="fc-wrapper" hidden>&nbsp;Amount:
+                <input id="fc" oninput="updateTextTL()" value="1"></input>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Upper-Right Icon
+            </td>
+            <td class="tdLeft">
+              <select id="top-right" class="upper-right-select" onchange="updateTopRightIcon()">
+                <option value="none">none</option>
+                <option value="haste">Movement</option>
+                <option value="range">Range</option>
+                <option value="melee">Melee Attack</option>
+                <option value="ranged">Ranged Attack</option>
+                <option value="magic">Magical Attack</option>
+              </select>
+              <span id="tr-wrapper" hidden>&nbsp;Amount:
+                <input id="tr" oninput="updateTextTR()" value="x1"></input>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Lower-Left Icon
+            </td>
+            <td class="tdLeft">
+              <select id="bottom-left" class="lower-left-select" onchange="updateBottomLeftIcon()">
+                <option value="none">none</option>
+                <option value="wp">Weapon Power</option>
+                <option value="sp">Spell Power</option>
+                <option value="hp">Health</option>
+                <option value="phys">Physical Damage</option>
+                <option value="arm">Armor</option>
+                <option value="dice">Dice</option>
+                <option value="flank">Flank</option>
+              </select>
+              Text:<input id="bl" oninput="updateTextBL()"></input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Lower-Right Icon
+            </td>
+            <td class="tdLeft">
+              <select id="bottom-right" class="lower-right-select" onchange="updateBottomRightIcon()">
+                <option value="none">none</option>
+                <option value="st">single</option>
+                <option value="3x3">3x3</option>
+                <option value="plus">+ Pattern</option>
+                <option value="cross">X Pattern</option>
+                <option value="cone">cone</option>
+                <option value="line">line</option>
+                <option value="wall">wall</option>
+                <option value="crit">Critical</option>
+              </select>
+              <span id="target-type-cont" hidden>
+                Targeting:
+                <select id="target-type" class="lower-right-select" onchange="updateBottomRightIcon()">
+                  <option value="red">enemy</option>
+                  <option value="orange">neutral</option>
+                  <option value="green">ally</option>
+                </select>
+              </span>
+              <br/>Lower-right text:<input id="br" oninput="updateTextBR()"></input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Description
+            </td>
+            <td>
+              <textarea id="desc" oninput="updateDesc()"></textarea>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      </td>
+      <td>
+
+      <div class="resultholder">
+        <img id="bg" src="ability-creator-images/power-template.png" />
+
+        <div id="main-image-wrapper">
+          <img id="main-image"></img>
+        </div>
+        <img id="main-image-frame" src="ability-creator-images/power-frame-2.png" hidden></img>
+
+        <img id="top-left-icon"></img>
+        <img id="top-right-icon"></img>
+        <img id="bottom-left-icon"></img>
+        <img id="bottom-right-icon"></img>
+
+        <img id="inf" src="ability-creator-images/icons/Infinity.png" hidden></img>
+
+        <div id="tl-text"></div>
+        <div id="tr-text"></div>
+        <div id="bl-text"></div>
+        <div id="br-text"></div>
+
+        <div id="rnk-text"></div>
+
+        <textarea id="resultTitle" readonly></textarea>
+
+        <div id="resultDescCont"><div id="centering"><div id="resultDesc"></div></div></div>
+      </div>
+
+      </td>
+      <td>
+
+      <div>
+        <h4>Icon Guide (for description)</h4>
+        Hover over icons to see their 'code' in the Description box.
+        <br/>&nbsp;
+        <table style="max-width: 250px">
+          <tr>
+            <td>
+              Stats
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Health_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Weapon Power_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Spell Power_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Strength_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Agility_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Will_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Accuracy_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Dodge_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Movement_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Range_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Critical_L.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Damage
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Physical Damage_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Magical Damage.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Armor_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Resist_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Armor Piercing_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Poison.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Bleeding.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Effects
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Buff_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Debuff_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Duration.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Dice_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Talent Rank.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Threat Generation_L.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Weapon Types
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Melee_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Smashy Weapon.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Stabby Weapon.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Shooty Weapon.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Staffy Weapon.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Trainable Traps
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Claw Trap.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Bear Trap.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Scatter Spike Trap.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Musketeers Trap.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Bonfire Trap.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Other Traps
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Blood Flames.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Singular Spike Trap.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Starfish.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Storm Cloud.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Obstacles
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Barricade.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Powder Keg.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Ice Obstacle.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Stone Obstacle_L.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Summons
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/Skeletal Pirate.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Skeletal Corsair.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Bone Drake.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Skeleton Hoplite.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Skeletal Warrior.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Golem.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Crab Crawlie.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Scorpion.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Lagooney.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Cherry Blossom Treant.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Blue Oni.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Terracotta Warrior.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Terror-cotta Warrior.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Other Pirate101 Icons
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/AoE.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Movement specify.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Range specify.png"></img>
+              <img class="icon" src="ability-creator-images/icons/Bonus Effects on Enemy Territory.png"></img>
+              <img class="icon" src="ability-creator-images/icons/must flank the enemy.png"></img>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Wizard101 Icons
+            </td>
+            <td>
+              <img class="icon" src="ability-creator-images/icons/W101 Drain_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/W101 Incoming_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/W101 Outgoing_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/W101 Afterlife_L.png"></img>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      </td>
+      </tr>
+      </table>
+
+      </div>
+    </div>
+    <div id="hovertext"></div>
+  </body>
+</html>

@@ -102,8 +102,68 @@ h1,h2 { font-family: shermlock; }
 .guidebox .comment { color: RGB(128, 128, 118); }
 
 /* Make scrollbar invisible */
-.guidebox {
+.guidebox,.creatorbox {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
 }
-.guidebox::-webkit-scrollbar { display: none; }
+.guidebox::-webkit-scrollbar,.creatorbox::-webkit-scrollbar { display: none; }
+
+
+
+/* Pirate101 Abilities Maker ----------------------------------- */
+body.creator {
+  background-image: url("backgrounds/khotan-skyway.png");
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+}
+body.creator::-webkit-scrollbar { display: none; }
+
+.creatorbox {
+  position: absolute;
+  padding: 10px;
+  top: 5vh;
+  left: 5vw;
+  right: 5vw;
+  bottom: 5vh;
+  background-color: RGBA(251, 250, 241, 0.7);
+  border: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #82501D;
+  box-shadow: 0px 0px 8px #000000;
+  color: black;
+  font-size: 10px;
+  text-shadow: none;
+  overflow-y: scroll;
+}
+.creatorbox select,input { font-size: 10px; }
+.creatorbox .even-smaller { font-size: 8px; }
+.creatorbox .tdLeft { text-align: left; }
+.creatorbox .ability-select { width: 110px; }
+.creatorbox .upper-left-select { width: 80px; }
+.creatorbox .upper-right-select { width: 100px; }
+.creatorbox .lower-left-select { width: 110px; }
+.creatorbox .lower-right-select { width: 68px; }
+
+.maincont {
+  padding: 0px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.input {
+  position: relative;
+  left: 0vw;
+  margin: 0 auto;
+}
+
+.resultholder {
+  position: relative;
+  left: 0vw;
+  width: 152px;
+  height: 256px;
+  margin: 0;
+  transform: scale(0.8, 0.8);
+}
+
+.creator select { color: black; box-shadow: none; text-align: left; }
