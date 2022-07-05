@@ -101,38 +101,37 @@
       }
 
       #resultDescCont {
+        /* positioning */
         position: absolute;
-        top: 169px;
-        left: 9.5px;
+        top: 170px;
+        left: 10px;
         width: 132px;
-        max-width: 132px;
-        height: 74px;
+          /* height is excluded because of updateBG() */
 
-        display: table;
-      }
-
-      #centering {
-        display: table-cell;
-        vertical-align: middle;
+        padding: 0px;
+        border: none;
+        overflow: hidden;
       }
 
       #resultDesc {
-        margin-left: auto;
-        margin-right: auto;
-        width: 128px;
-        max-height: 74px;
-        padding: 0px;
+        /* center horizontal + vertical */
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 132px;
 
+        /* font settings */
         font-family: "Comic Sans MS", Arial;
         font-size: 12px;
-        line-height: 14px;
+        line-height: 15px;
         font-weight: 600;
         color: black;
         text-align: center;
-        overflow: hidden;
 
         cursor: context-menu;
-
       }
 
       #main-image-wrapper {
@@ -172,6 +171,7 @@
 
       #bg-download { color: blue; }
     </style>
+
   </head>
 
   <body class="creator" onload="initialize()">
@@ -261,6 +261,7 @@
 
         // W101 Icons ----------------------------------
         ["[drain]", "W101 Drain_L.png"],
+        ["[stun]", "W101 Stun_L.png"],
         ["[incoming]", "W101 Incoming_L.png"],
         ["[outgoing]", "W101 Outgoing_L.png"],
         ["[afterlife]", "W101 Afterlife_L.png"]
@@ -277,8 +278,8 @@
         let nextAbility = document.getElementById("ability-type").value;
         if (nextAbility == "power") {
           document.getElementById("bg").src = "ability-creator-images/power-template.png";
-          document.getElementById("resultDescCont").style.height = "74px";
-          document.getElementById("resultDesc").style.maxHeight = "74px";
+          document.getElementById("resultDescCont").style.height = "75px";
+          document.getElementById("resultDesc").style.maxHeight = "75px";
           document.getElementById("rnk-wrapper").hidden = true;
           document.getElementById("rnk-text").hidden = true;
         } else {
@@ -448,7 +449,7 @@
 
         function customReplace(str, key, fp) {
           let cl = "icon";
-          if (key == "[talent]" || key == "[buff]" || key == "[debuff]") { cl = "iconL"; }
+          if (key == "[talent]") { cl = "iconL"; }
           return str.replaceAll(key, "<img class='" + cl + "' src='ability-creator-images/icons/"
               + fp + "'></img>");
         }
@@ -767,7 +768,9 @@
 
         <textarea id="resultTitle" readonly></textarea>
 
-        <div id="resultDescCont"><div id="centering"><div id="resultDesc"></div></div></div>
+        <div id="resultDescCont">
+          <div id="resultDesc"></div>
+        </div>
       </div>
 
       </td>
@@ -907,6 +910,7 @@
             </td>
             <td>
               <img class="icon" src="ability-creator-images/icons/W101 Drain_L.png"></img>
+              <img class="icon" src="ability-creator-images/icons/W101 Stun_L.png"></img>
               <img class="icon" src="ability-creator-images/icons/W101 Incoming_L.png"></img>
               <img class="icon" src="ability-creator-images/icons/W101 Outgoing_L.png"></img>
               <img class="icon" src="ability-creator-images/icons/W101 Afterlife_L.png"></img>
