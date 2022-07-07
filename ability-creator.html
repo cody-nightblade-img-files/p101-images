@@ -502,7 +502,8 @@
           let currEle = document.elementFromPoint(e.clientX, e.clientY);
           let correctEle1 = document.getElementById("main-image");
           let correctEle2 = document.getElementById("main-image-wrapper");
-          if (currEle != correctEle1 && currEle != correctEle2) { return; }
+          if (currEle != correctEle1
+              && currEle != correctEle2) { return; }
           mouseD = true;
           startX = e.pageX - wr.offsetLeft;
           startY = e.pageY - wr.offsetTop;
@@ -610,7 +611,7 @@
       <td>
 
       <div class="input">
-        <h4>Ability Information</h4>
+        <h3>Ability Information</h3>
         <table>
           <tr>
             <td>
@@ -777,10 +778,10 @@
       <td>
 
       <div>
-        <h4>Icon Guide (for description)</h4>
+        <h3>Icon Guide (for description)</h3>
         Hover over icons to see their 'code' in the Description box.
         <br/>&nbsp;
-        <table style="max-width: 250px">
+        <table style="width: 225px">
           <tr>
             <td>
               Stats
