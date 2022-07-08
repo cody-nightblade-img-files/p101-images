@@ -3,6 +3,8 @@
   <head>
     <link rel="stylesheet" href="styles.css"/>
 
+    <meta name="viewport" content="initial-scale=1">
+
     <style>
       .creator input { width: auto; box-shadow: none; color: black; }
       .creator textarea {
@@ -390,6 +392,10 @@
           document.getElementById("inf").hidden = false;
         } else {
           document.getElementById("tr-text").innerHTML = tx;
+          let tp = document.getElementById("top-right").value;
+          if (tp == "range" || tp == "haste") {
+            document.getElementById("tr-text").hidden = false;
+          }
           document.getElementById("inf").hidden = true;
         }
       }
