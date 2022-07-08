@@ -450,7 +450,7 @@
 
       function updateDesc() {
         desc = document.getElementById("desc").value;
-        desc = desc.replaceAll(String.fromCharCode(10),"<br/>");
+        desc = desc.replaceAll(String.fromCharCode(10),"</span><br/><span>");
 
         desc = "<span>" + desc;
         desc = desc.replaceAll("[", "</span>[");
@@ -461,7 +461,6 @@
           desc = desc.replaceAll(nx[0], nx[1]);
         }
         desc = desc + "</span>";
-
         desc = desc.replaceAll("<span></span>","");
 
         document.getElementById("resultDesc").innerHTML = desc;
@@ -663,6 +662,7 @@
         newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
 
         drawDescription();
+        clearSide();
         drawRankText();
 
         function drawMainImage() {
@@ -732,7 +732,7 @@
           newCtx.textBaseline = "bottom";
           newCtx.fillStyle = "black";
 
-          const descEleList = document.getElementById("resultDesc").childNodes;
+          let descEleList = document.getElementById("resultDesc").childNodes;
           for (let i = 0; i < descEleList.length; i++) {
             let nextEle = descEleList[i];
             let pos = nextEle.getBoundingClientRect();
@@ -758,9 +758,11 @@
             let initFS = newCtx.font;
             let fs = window.getComputedStyle(ele).getPropertyValue("font-size");
             newCtx.font = "600 " + (parseInt(fs) * 0.8) + "px Comic Sans MS";
+            console.clear()
             let children = ele.childNodes;
             for (let i = 0; i < children.length; i++) {
               let nextEle = children[i];
+              console.log(nextEle)
               let pos = nextEle.getBoundingClientRect();
               let diffX = pos.x - baseLoc.x;
               let diffY = pos.y - baseLoc.y;
@@ -770,7 +772,8 @@
                 newCtx.drawImage(img, diffX, diffY, pos.width,
                     img.height * pos.width / img.width);
               } else {
-                newCtx.fillText(nextEle.innerHTML, diffX,
+                let newTxt = nextEle.innerHTML.replaceAll("<br>", "");
+                newCtx.fillText(newTxt, diffX,
                     diffY + pos.height + 0);
               }
             }
@@ -855,6 +858,24 @@
 
           let rnkTxt = rnkEle.innerHTML;
           newCtx.fillText(rnkTxt, diffX + box.width * 0.5, diffY + 3);
+        }
+
+        function clearSide() {
+          newCtx.transform(0.8, 0, 0, 0.8, 0, 0);
+          let imgsrc = document.getElementById("bg").src;
+          let lowY = 245;
+          if (imgsrc.indexOf("talent") > -1) { lowY = 232; }
+
+          let baseimg = new Image();
+          baseimg.src = imgsrc;
+          newCtx.drawImage(baseimg, 0, 0, 10, 256,
+              0, 0, 10, 256); // left side
+          newCtx.drawImage(baseimg, 142, 0, 10, 256,
+              142, 0, 10, 256); // right side
+          newCtx.drawImage(baseimg, 0, lowY, 152, 256,
+              0, lowY, 152, 256); // bottom
+
+          newCtx.transform(1.25, 0, 0, 1.25, 0, 0);
         }
       }
 
