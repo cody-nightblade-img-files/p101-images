@@ -10,7 +10,10 @@
         resize: none;
       }
       .icon {
-        vertical-align: middle; padding-bottom: 4px; padding-left: 1px;
+        vertical-align: middle;
+
+        padding-bottom: 4px; padding-left: 1px;
+
         max-width: 16px;
       }
       .iconL {
@@ -76,8 +79,9 @@
       #resultTitle {
         position: absolute;
         top: 12px;
-        left: 10px; /* ttl width: 152px */
-        width: 132px;
+        left: 10px; /* ttl width: 152px, left = 10 at max width */
+        max-width: 132px;
+
         resize: none;
         padding: 0px;
 
@@ -88,6 +92,7 @@
         letter-spacing: 0.5px;
         line-height: 15px;
 
+        -ms-transform: scale(1, 0.8);
         transform: scale(1, 0.8);
 
         background-color: transparent;
@@ -170,6 +175,32 @@
       }
 
       #bg-download { color: blue; }
+
+      .size150 {
+        font-size: 18px;
+      }
+      .size150 .icon {
+        width: 32px;
+        max-width: 32px;
+      }
+
+      .size125 {
+        font-size: 17px;
+      }
+      .size125 .icon {
+        width: 24px;
+        max-width: 24px;
+      }
+
+      #resultimagecont {
+        position: relative;
+        width: 152px;
+        height: 256px;
+
+        -ms-transform: scale(0.8, 0.8);
+        transform: scale(0.8, 0.8);
+
+      }
     </style>
 
   </head>
@@ -196,7 +227,7 @@
 
         // Damage ---------------------------------
         ["[phys-dmg]", "Physical Damage_L.png"],
-        ["[magic-dmg]", "Magical Damage.png"],
+        ["[magic-dmg]", "Magical Damage_L.png"],
         ["[armor]", "Armor_L.png"],
         ["[resist]", "Resist_L.png"],
         ["[pierce]", "Armor Piercing_L.png"],
@@ -206,7 +237,7 @@
         // Effects ---------------------------------
         ["[buff]", "Buff_L.png"],
         ["[debuff]", "Debuff_L.png"],
-        ["[rounds]", "Duration.png"],
+        ["[rounds]", "Duration_L.png"],
         ["[dice]", "Dice_L.png"],
         ["[talent]", "Talent Rank.png"],
         ["[threat]", "Threat Generation_L.png"],
@@ -265,6 +296,13 @@
         ["[incoming]", "W101 Incoming_L.png"],
         ["[outgoing]", "W101 Outgoing_L.png"],
         ["[afterlife]", "W101 Afterlife_L.png"]
+      ];
+      const key_tag = [
+        // Custom Tags ---------------------------------
+        ["[medium]", "<span class='size125'>"],
+        ["[/medium]", "</span>"],
+        ["[large]", "<span class='size150'>"],
+        ["[/large]", "</span>"]
       ];
 
       let title = "";
@@ -430,7 +468,17 @@
         desc = document.getElementById("desc").value;
         desc = desc.replaceAll(String.fromCharCode(10),"<br/>");
 
+        desc = "<span>" + desc;
+        desc = desc.replaceAll("[", "</span>[");
+        desc = desc.replaceAll("]", "]<span>");
         replaceDescIcon();
+        for (let i = 0; i < key_tag.length; i++) {
+          let nx = key_tag[i];
+          desc = desc.replaceAll(nx[0], nx[1]);
+        }
+        desc = desc + "</span>";
+
+        desc = desc.replaceAll("<span></span>","");
 
         document.getElementById("resultDesc").innerHTML = desc;
       }
@@ -587,6 +635,238 @@
       function hoverHide() {
         let hov = document.getElementById("hovertext");
         if (hov !== null) { hov.hidden = true; }
+      }
+
+      /* Draw Result to 1 Image ------------------------ */
+      function drawResult() {
+        document.getElementById("resultimagecont").innerHTML = "";
+        let newC = document.createElement("canvas");
+        newC.id = "drawresult";
+        newC.width = 152;
+        newC.height = 256;
+        let newCtx = newC.getContext("2d");
+        document.getElementById("resultimagecont").appendChild(newC);
+
+        // get main location
+        const baseLoc = document.getElementById("resultholder").getBoundingClientRect();
+
+        // draw the bg
+        let bg_img = new Image();
+        bg_img.src = document.getElementById("bg").src;
+        newCtx.drawImage(bg_img, 0, 0);
+
+        // draw the main image
+        drawMainImage();
+
+        // draw power frame
+        drawPowerFrame();
+
+        // draw middle stuff
+        drawTopRightIcon();
+
+        // preset for non-desc text
+        newCtx.font = "15px shermlock";
+        newCtx.transform(1, 0, 0, 0.8, 0, 0);
+        newCtx.textAlign = "center";
+        newCtx.textBaseline = "middle"; // why are these keywords differentistg
+
+        // draw the title
+        drawTitleText();
+
+        // draw the middle area txt
+        drawMiddleText();
+
+        // adjust transform to account for resultDesc's scaling on text
+        newCtx.transform(1.25, 0, 0, 1.25, 0, 0);
+
+        // draw the description
+        drawDescription();
+
+        function drawMainImage() {
+          let s = document.getElementById("main-image").src;
+          let img = new Image();
+          img.src = s;
+
+          let wr = document.getElementById("main-image-wrapper");
+          let x = wr.scrollLeft;
+          let y = wr.scrollTop;
+          let sc = document.getElementById("zoom-input").value / 100;
+
+          newCtx.drawImage(img, x / sc, y / sc, 119 / sc, 119 / sc, 17, 45, 119, 119);
+        }
+
+        function drawPowerFrame() {
+          let fr = document.getElementById("main-image-frame");
+          if (fr.hidden) { return; }
+
+          let img = new Image();
+          img.src = fr.src;
+          newCtx.drawImage(img, 17, 45, 119, 119);
+        }
+
+        function drawTitleText() {
+          newCtx.fillStyle = "yellow";
+
+          const ttlEle = document.getElementById("resultTitle");
+          let ttlFontSize = ttlEle.style.fontSize
+              || window.getComputedStyle(ttlEle, null).getPropertyValue("font-size");
+          newCtx.font = ttlFontSize + " shermlock";
+          let ttlTxt = ttlEle.value;
+          let ttlTxt_1 = "";
+          let ttlTxt_2 = "";
+
+          // line 1
+          ttlTxt_1 = ttlTxt;
+          let newLine = false;
+          if (ttlTxt.indexOf(String.fromCharCode(10)) > -1) {
+            let place = ttlTxt.indexOf(String.fromCharCode(10));
+            ttlTxt_1 = ttlTxt.substring(0, place);
+            ttlTxt = ttlTxt.substring(place + 1);
+            newLine = true;
+          } else { ttlTxt = ""; }
+          newCtx.fillText(ttlTxt_1, 76, 28);
+
+          // line 2
+          ttlTxt_2 = ttlTxt;
+          if (ttlTxt.indexOf(String.fromCharCode(10)) > -1) {
+            let place = ttlTxt.indexOf(String.fromCharCode(10));
+            ttlTxt_2 = ttlTxt.substring(0, place);
+            ttlTxt = ttlTxt.substring(place + 1);
+          }
+          newCtx.fillText(ttlTxt_2, 76, 43);
+
+          // no more lines are rendered
+        }
+
+        function drawDescription() {
+          newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
+          newCtx.transform(1, 0, 0, 1.25, 0, 0); // 1 / 0.8 = 1.25, idk why it's like this
+          newCtx.textAlign = "left";
+          newCtx.textBaseline = "bottom";
+          newCtx.fillStyle = "black";
+
+          const descEleList = document.getElementById("resultDesc").childNodes;
+          for (let i = 0; i < descEleList.length; i++) {
+            let nextEle = descEleList[i];
+            let pos = nextEle.getBoundingClientRect();
+            let diffX = pos.x - baseLoc.x;
+            let diffY = pos.y - baseLoc.y;
+            if (nextEle.tagName == "SPAN" && nextEle.className == "") {
+              let nextTxt = nextEle.innerHTML.replaceAll("<br>", "");
+              newCtx.fillText(nextTxt, diffX,
+                  diffY + pos.height * 1 + 0.5);
+            }
+            if (nextEle.tagName == "IMG") {
+              let dims = nextEle.getBoundingClientRect();
+              let img = new Image();
+              img.src = nextEle.src;
+              newCtx.drawImage(img, diffX, diffY, dims.width, img.height * dims.width / img.width);
+            }
+            if (nextEle.tagName == "SPAN" && nextEle.className !== "") {
+              innerDraw(nextEle);
+            }
+          }
+
+          function innerDraw(ele) {
+            let initFS = newCtx.font;
+            let fs = window.getComputedStyle(ele).getPropertyValue("font-size");
+            newCtx.font = "600 " + (parseInt(fs) * 0.8) + "px Comic Sans MS";
+            let children = ele.childNodes;
+            for (let i = 0; i < children.length; i++) {
+              let nextEle = children[i];
+              let pos = nextEle.getBoundingClientRect();
+              let diffX = pos.x - baseLoc.x;
+              let diffY = pos.y - baseLoc.y;
+              if (nextEle.tagName == "IMG") {
+                let img = new Image();
+                img.src = nextEle.src;
+                newCtx.drawImage(img, diffX, diffY, pos.width,
+                    img.height * pos.width / img.width);
+              } else {
+                newCtx.fillText(nextEle.innerHTML, diffX,
+                    diffY + pos.height + 0);
+              }
+            }
+            newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
+          }
+        }
+
+        function drawTopRightIcon() {
+          let icList = ["top-left-icon", "top-right-icon",
+              "bottom-left-icon", "bottom-right-icon"];
+          for (let i = 0; i < icList.length; i++) {
+            let nextStr = icList[i];
+            drawIcon(nextStr);
+          }
+
+          function drawIcon(str) {
+            let tr = document.getElementById(str);
+            let s = tr.src;
+            if (s.indexOf("none") > -1) { return; }
+
+            let pos = tr.getBoundingClientRect();
+            let diffX = pos.x - baseLoc.x;
+            let diffY = pos.y - baseLoc.y;
+            let scale = 1.25;
+
+            let tempImg = new Image();
+            tempImg.src = s;
+            newCtx.drawImage(tempImg, diffX * 1.25, diffY * 1.25, tempImg.width, tempImg.height);
+          }
+        }
+
+        function drawMiddleText() {
+//          newCtx.fillStyle = "white";
+          let idList = ["tl-text", "tr-text", "bl-text", "br-text"];
+          let locList = [
+            [38, 87], [114, 86], [38, 202], [115, 202]
+          ];
+
+          for (let i = 0; i < idList.length; i++) {
+            drawAccompText(i);
+          }
+
+          function drawAccompText(num) {
+            const txtEle = document.getElementById(idList[num]);
+            let txtFontSize = window.getComputedStyle(txtEle, null).getPropertyValue("font-size");
+            newCtx.font = txtFontSize + " shermlock";
+            let txtTxt = txtEle.innerHTML;
+
+            // line 1
+            let txtTxt_1 = txtTxt;
+            let newLine = false;
+            if (txtTxt.indexOf(String.fromCharCode(10)) > -1) {
+              let place = txtTxt.indexOf(String.fromCharCode(10));
+              txtTxt_1 = txtTxt.substring(0, place);
+              txtTxt = txtTxt.substring(place + 1);
+              newLine = true;
+            }
+            let nextpos = locList[num];
+
+            newCtx.shadowColor = "black";
+            newCtx.shadowBlur = 5;
+            newCtx.lineWidth = 0;
+            for (let i = 0; i < 8; i++) {
+              newCtx.strokeText(txtTxt_1, nextpos[0], nextpos[1]);
+            }
+
+            newCtx.fillStyle = "white";
+            newCtx.shadowBlur = 0;
+            newCtx.fillText(txtTxt_1, nextpos[0], nextpos[1]);
+          }
+        }
+      }
+
+      function downloadResult() {
+        drawResult();
+
+        let canv = document.getElementById("drawresult");
+        let img = new Image();
+        img.src = canv.toDataURL("image/png");
+        img.download = "result.png";
+        document.body.appendChild(img);
+        img.click();
+        document.body.removeChild(img);
       }
     </script>
 
@@ -745,7 +1025,9 @@
       </td>
       <td>
 
-      <div class="resultholder">
+      <button onclick="drawResult()">Draw</button> <button onclick="downloadResult()">Download</button>
+
+      <div class="resultholder" id="resultholder">
         <img id="bg" src="ability-creator-images/power-template.png" />
 
         <div id="main-image-wrapper">
@@ -923,6 +1205,9 @@
       </td>
       </tr>
       </table>
+
+      <div id="resultimagecont">
+      </div>
 
       </div>
     </div>

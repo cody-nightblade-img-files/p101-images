@@ -165,7 +165,15 @@ body.creator::-webkit-scrollbar { display: none; }
   height: 256px;
   margin: 0;
 
+
   transform: scale(0.8, 0.8);
+
 }
 
 .creator select { color: black; box-shadow: none; text-align: left; }
+
+/*
+.creator #resultDesc * {
+  box-shadow: 0 0 3px black;
+}
+*/
