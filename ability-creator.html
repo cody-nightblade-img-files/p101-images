@@ -445,21 +445,6 @@
           } else { newic = ""; }
           document.getElementById("target-type-cont").hidden = true;
         }
-/*
-        if (ic == "str") { newic = "ability-creator-images/lower-right/single target red.png"; }
-        if (ic == "3x3r") { newic = "ability-creator-images/lower-right/3x3 red.png"; }
-        if (ic == "plusr") { newic = "ability-creator-images/lower-right/plus red.png"; }
-        if (ic == "crossr") { newic = "ability-creator-images/lower-right/cross red.png"; }
-        if (ic == "coner") { newic = "ability-creator-images/lower-right/cone red.png"; }
-        if (ic == "liner") { newic = "ability-creator-images/lower-right/line red.png"; }
-        if (ic == "wallr") { newic = "ability-creator-images/lower-right/wall red.png"; }
-
-        if (ic == "sto") { newic = "ability-creator-images/lower-right/single target orange.png"; }
-        if (ic == "3x3o") { newic = "ability-creator-images/lower-right/3x3 orange.png"; }
-        if (ic == "wallo") { newic = "ability-creator-images/lower-right/wall orange.png"; }
-
-        if (ic == "crit") { newic = "ability-creator-images/lower-right/Critical_L.png"; }
-*/
 
         document.getElementById("bottom-right-icon").src = newic;
       }
@@ -740,7 +725,9 @@
 
         function drawDescription() {
           newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
-          newCtx.transform(1, 0, 0, 1.25, 0, 0); // 1 / 0.8 = 1.25, idk why it's like this
+          newCtx.transform(1, 0, 0, 1.25, 0, 0);
+              // 1 / 0.8 = 1.25, idk why it's like this
+
           newCtx.textAlign = "left";
           newCtx.textBaseline = "bottom";
           newCtx.fillStyle = "black";
@@ -816,7 +803,6 @@
         }
 
         function drawMiddleText() {
-//          newCtx.fillStyle = "white";
           let idList = ["tl-text", "tr-text", "bl-text", "br-text"];
           let locList = [
             [38, 87], [114, 86], [38, 202], [115, 202]
@@ -864,10 +850,11 @@
         let img = new Image();
         img.src = canv.toDataURL("image/png");
 
+        let ttl = document.getElementById("title").value;
+
         let temp = document.createElement("a");
         temp.href = img.src;
-        temp.download = "result.png";
-        temp.target = "_blank";
+        temp.download = ttl + ".png";
 
         document.body.appendChild(temp);
         temp.click();
