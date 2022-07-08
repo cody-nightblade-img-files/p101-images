@@ -327,7 +327,6 @@
           document.getElementById("rnk-wrapper").hidden = false;
           document.getElementById("rnk-text").hidden = false;
         }
-        document.getElementById("bg-download").href = document.getElementById("bg").src;
         updateRank();
       }
 
@@ -655,17 +654,16 @@
         newCtx.textAlign = "center";
         newCtx.textBaseline = "middle"; // why are these keywords differentistg
 
-        // draw the title
+        // Shermlock texts
         drawTitleText();
-
-        // draw the middle area txt
         drawMiddleText();
 
         // adjust transform to account for resultDesc's scaling on text
         newCtx.transform(1.25, 0, 0, 1.25, 0, 0);
+        newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
 
-        // draw the description
         drawDescription();
+        drawRankText();
 
         function drawMainImage() {
           let s = document.getElementById("main-image").src;
@@ -724,7 +722,9 @@
         }
 
         function drawDescription() {
+/*
           newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
+*/
           newCtx.transform(1, 0, 0, 1.25, 0, 0);
               // 1 / 0.8 = 1.25, idk why it's like this
 
@@ -841,6 +841,21 @@
             newCtx.fillText(txtTxt_1, nextpos[0], nextpos[1]);
           }
         }
+
+        function drawRankText() {
+          newCtx.textAlign = "center";
+          newCtx.textBaseline = "top";
+
+          let rnkEle = document.getElementById("rnk-text");
+          if (rnkEle.hidden) { return; }
+
+          let box = rnkEle.getBoundingClientRect();
+          let diffX = box.x - baseLoc.x;
+          let diffY = box.y - baseLoc.y;
+
+          let rnkTxt = rnkEle.innerHTML;
+          newCtx.fillText(rnkTxt, diffX + box.width * 0.5, diffY + 3);
+        }
       }
 
       function downloadResult() {
@@ -859,6 +874,8 @@
         document.body.appendChild(temp);
         temp.click();
         document.body.removeChild(temp);
+        
+        document.getElementById("resultimagecont").innerHTML = "";
       }
     </script>
 
@@ -897,8 +914,6 @@
               <span id="rnk-wrapper" hidden><br/>Rank:
                 <input id="rnk" oninput="updateRank()" value="1 of 3"></input>
               </span>
-              <br/>
-              <a id="bg-download" target="_blank" download>Download Template</button>
             </td>
           </tr>
           <tr>
