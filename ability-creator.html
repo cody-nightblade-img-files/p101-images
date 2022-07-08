@@ -863,10 +863,15 @@
         let canv = document.getElementById("drawresult");
         let img = new Image();
         img.src = canv.toDataURL("image/png");
-        img.download = "result.png";
-        document.body.appendChild(img);
-        img.click();
-        document.body.removeChild(img);
+
+        let temp = document.createElement("a");
+        temp.src = img.src;
+        temp.download = "result.png";
+        temp.target = "_blank";
+
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       }
     </script>
 
