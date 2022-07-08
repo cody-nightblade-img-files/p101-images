@@ -865,7 +865,7 @@
         img.src = canv.toDataURL("image/png");
 
         let temp = document.createElement("a");
-        temp.src = img.src;
+        temp.href = img.src;
         temp.download = "result.png";
         temp.target = "_blank";
 
