@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>P101 Ability Maker</title>
+
     <link rel="stylesheet" href="styles.css"/>
 
     <meta name="viewport" content="initial-scale=1">
@@ -89,7 +90,7 @@
         padding: 0px;
 
         font-family: shermlock, Arial;
-        font-size: 15px;
+        font-size: 15px; /* 15px = 1.5em */
         color: #FCEF01;
         text-align: center;
         letter-spacing: 0.5px;
@@ -133,7 +134,7 @@
 
         /* font settings */
         font-family: "Comic Sans MS", Arial;
-        font-size: 12px;
+        font-size: 12px; /* 12px = 1.2em */
         line-height: 15px;
         font-weight: 600;
         color: black;
@@ -180,7 +181,7 @@
       #bg-download { color: blue; }
 
       .size150 {
-        font-size: 18px;
+        font-size: 18px; /* 18px = 1.8em */
       }
       .size150 .icon {
         width: 32px;
@@ -188,7 +189,7 @@
       }
 
       .size125 {
-        font-size: 17px;
+        font-size: 17px; /* 17px = 1.7em */
       }
       .size125 .icon {
         width: 24px;
@@ -206,6 +207,7 @@
 
       }
 */
+
     </style>
 
   </head>
@@ -463,6 +465,7 @@
       function updateDesc() {
         desc = document.getElementById("desc").value;
         desc = desc.replaceAll(String.fromCharCode(10),"</span><br/><span>");
+        desc = desc.replaceAll(" ", "</span><span> </span><span>");
 
         desc = "<span>" + desc;
         desc = desc.replaceAll("[", "</span>[");
@@ -492,8 +495,10 @@
 
         function customReplace(str, key, fp) {
           let cl = "icon";
+          let add_data = "";
           if (key == "[talent]") { cl = "iconL"; }
-          return str.replaceAll(key, "<img class='" + cl + "' src='ability-creator-images/icons/"
+          return str.replaceAll(key, "<img class='" + cl
+              + "' src='ability-creator-images/icons/"
               + fp + "'></img>");
         }
       }
@@ -829,6 +834,7 @@
 
           function drawAccompText(num) {
             const txtEle = document.getElementById(idList[num]);
+            if (txtEle.hidden == true) { return; }
             let txtFontSize = window.getComputedStyle(txtEle, null).getPropertyValue("font-size");
             newCtx.font = txtFontSize + " shermlock";
             let txtTxt = txtEle.innerHTML;
@@ -930,7 +936,7 @@
 
           <br/><br/>
           This works best on a computer. I don't currently recommend using this with mobile devices since I haven't tested those yet.
-          <br/>(main issue being font size inconsistency linked to browser interpretation, which does affect the end result)
+          <br/>(main issue being font size inconsistency linked to what I assume is device / browser interpretation, which does affect the end result)
 
           <br/><br/>
           Credits go to KingsIsle Entertainment for Pirate101.
