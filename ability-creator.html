@@ -49,7 +49,7 @@
         resize: none;
         padding: 0px;
         font-family: shermlock;
-        font-size: 15px;
+        font-size: 11.25pt; /* 15px = 11.25pt */
         color: white;
 
         transform: scale(1, 0.8);
@@ -90,7 +90,7 @@
         padding: 0px;
 
         font-family: shermlock, Arial;
-        font-size: 15px; /* 15px = 1.5em */
+        font-size: 11.25pt; /* 15px = 11.25pt */
         color: #FCEF01;
         text-align: center;
         letter-spacing: 0.5px;
@@ -134,7 +134,7 @@
 
         /* font settings */
         font-family: "Comic Sans MS", Arial;
-        font-size: 12px; /* 12px = 1.2em */
+        font-size: 9pt; /* 12px = 9pt */
         line-height: 15px;
         font-weight: 600;
         color: black;
@@ -181,7 +181,7 @@
       #bg-download { color: blue; }
 
       .size150 {
-        font-size: 18px; /* 18px = 1.8em */
+        font-size: 13.5pt; /* 18px = 13.5pt */
       }
       .size150 .icon {
         width: 32px;
@@ -189,7 +189,7 @@
       }
 
       .size125 {
-        font-size: 17px; /* 17px = 1.7em */
+        font-size: 12.75pt; /* 17px = 12.75pt */
       }
       .size125 .icon {
         width: 24px;
@@ -339,8 +339,8 @@
       }
 
       function changeTitleFontSize() {
-        let newsz = "15px";
-        if (document.getElementById("fonttoggle").checked) { newsz = "10px"; }
+        let newsz = "11.25pt";
+        if (document.getElementById("fonttoggle").checked) { newsz = "7.5pt"; }
         document.getElementById("resultTitle").style.fontSize = newsz;
       }
 
@@ -677,7 +677,7 @@
 
         // adjust transform to account for resultDesc's scaling on text
         newCtx.transform(1.25, 0, 0, 1.25, 0, 0);
-        newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
+        newCtx.font = "600 " + (12 * 0.8) + "pt Comic Sans MS";
 
         drawDescription();
         clearSide();
@@ -795,7 +795,7 @@
                     diffY + pos.height + 0);
               }
             }
-            newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
+            newCtx.font = "600 " + (12 * 0.8) + "pt Comic Sans MS";
           }
         }
 
