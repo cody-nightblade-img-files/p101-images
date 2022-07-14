@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>P101 Ability Maker</title>
-
     <link rel="stylesheet" href="styles.css"/>
 
     <meta name="viewport" content="initial-scale=1">
@@ -49,7 +48,7 @@
         resize: none;
         padding: 0px;
         font-family: shermlock;
-        font-size: 15px; /* 15px = 11.25pt */
+        font-size: 15px;
         color: white;
 
         transform: scale(1, 0.8);
@@ -90,7 +89,7 @@
         padding: 0px;
 
         font-family: shermlock, Arial;
-        font-size: 15px; /* 15px = 11.25pt */
+        font-size: 15px;
         color: #FCEF01;
         text-align: center;
         letter-spacing: 0.5px;
@@ -134,7 +133,7 @@
 
         /* font settings */
         font-family: "Comic Sans MS", Arial;
-        font-size: 12px; /* 12px = 9pt */
+        font-size: 12px;
         line-height: 15px;
         font-weight: 600;
         color: black;
@@ -181,7 +180,7 @@
       #bg-download { color: blue; }
 
       .size150 {
-        font-size: 18px; /* 18px = 13.5pt */
+        font-size: 18px;
       }
       .size150 .icon {
         width: 32px;
@@ -189,7 +188,7 @@
       }
 
       .size125 {
-        font-size: 17px; /* 17px = 12.75pt */
+        font-size: 17px;
       }
       .size125 .icon {
         width: 24px;
@@ -207,16 +206,14 @@
 
       }
 */
-
     </style>
 
   </head>
 
   <body class="creator" onload="initialize()">
     <script>
-//      const title_space = " "; // actual space: 1/6 em
-//      const title_space = " "; // actual space: 1/4 em
-      const title_space = " "; // normal space
+      const title_space = " "; // actual space: 1/6 em
+//      const title_space = " "; // normal space
       function isUpperCase(c) { return c == c.toUpperCase(); }
 
       const key_icon = [
@@ -320,24 +317,6 @@
         updateBG();
       }
 
-      /* --------------------------------------------------------- */
-      /* Font Size Adjustment with Device                          */
-      let deviceSize;
-      function updateDeviceSize() {
-        device = window.getComputedStyle(document.getElementById("resultholder"));
-        let str = "Measured result height: "
-            + device.getPropertyValue("width") + " x "
-            + device.getPropertyValue("height");
-        let mn = window.getComputedStyle(document.getElementById("creatorbox"));
-        str = str + " (window: "
-            + mn.getPropertyValue("width") + " x "
-            + mn.getPropertyValue("height") + ")";
-        document.getElementById("deviceSize").innerHTML = str;
-      }
-      setInterval(updateDeviceSize, 20);
-
-      /* --------------------------------------------------------- */
-
       function updateBG() {
         let nextAbility = document.getElementById("ability-type").value;
         if (nextAbility == "power") {
@@ -358,9 +337,7 @@
 
       function changeTitleFontSize() {
         let newsz = "15px";
-        if (document.getElementById("fonttoggle").checked) {
-          newsz = "10px";
-        }
+        if (document.getElementById("fonttoggle").checked) { newsz = "10px"; }
         document.getElementById("resultTitle").style.fontSize = newsz;
       }
 
@@ -486,7 +463,6 @@
       function updateDesc() {
         desc = document.getElementById("desc").value;
         desc = desc.replaceAll(String.fromCharCode(10),"</span><br/><span>");
-        desc = desc.replaceAll(" ", "</span><span> </span><span>");
 
         desc = "<span>" + desc;
         desc = desc.replaceAll("[", "</span>[");
@@ -516,10 +492,8 @@
 
         function customReplace(str, key, fp) {
           let cl = "icon";
-          let add_data = "";
           if (key == "[talent]") { cl = "iconL"; }
-          return str.replaceAll(key, "<img class='" + cl
-              + "' src='ability-creator-images/icons/"
+          return str.replaceAll(key, "<img class='" + cl + "' src='ability-creator-images/icons/"
               + fp + "'></img>");
         }
       }
@@ -697,7 +671,7 @@
 
         // adjust transform to account for resultDesc's scaling on text
         newCtx.transform(1.25, 0, 0, 1.25, 0, 0);
-        newCtx.font = "600 " + (12 * 0.8) + "pt Comic Sans MS";
+        newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
 
         drawDescription();
         clearSide();
@@ -815,7 +789,7 @@
                     diffY + pos.height + 0);
               }
             }
-            newCtx.font = "600 " + (12 * 0.8) + "pt Comic Sans MS";
+            newCtx.font = "600 " + (12 * 0.8) + "px Comic Sans MS";
           }
         }
 
@@ -855,7 +829,6 @@
 
           function drawAccompText(num) {
             const txtEle = document.getElementById(idList[num]);
-            if (txtEle.hidden == true) { return; }
             let txtFontSize = window.getComputedStyle(txtEle, null).getPropertyValue("font-size");
             newCtx.font = txtFontSize + " shermlock";
             let txtTxt = txtEle.innerHTML;
@@ -957,14 +930,11 @@
 
           <br/><br/>
           This works best on a computer. I don't currently recommend using this with mobile devices since I haven't tested those yet.
-          <br/>(main issue being font size inconsistency linked to what I assume is device / browser interpretation, which does affect the end result)
+          <br/>(main issue being font size inconsistency linked to browser interpretation, which does affect the end result)
 
           <br/><br/>
           Credits go to KingsIsle Entertainment for Pirate101.
           <br/>Thanks for visiting / using this page!
-
-          <br/><br/>
-          <span id="deviceSize"></span>
         </p>
       </div>
 
