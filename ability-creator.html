@@ -320,6 +320,24 @@
         updateBG();
       }
 
+      /* --------------------------------------------------------- */
+      /* Font Size Adjustment with Device                          */
+      let deviceSize;
+      function updateDeviceSize() {
+        device = window.getComputedStyle(document.getElementById("resultholder"));
+        let str = "Measured result height: "
+            + device.getPropertyValue("width") + " x "
+            + device.getPropertyValue("height");
+        let mn = window.getComputedStyle(document.getElementById("creatorbox"));
+        str = str + " (window: "
+            + mn.getPropertyValue("width") + " x "
+            + mn.getPropertyValue("height") + ")";
+        document.getElementById("deviceSize").innerHTML = str;
+      }
+      setInterval(updateDeviceSize, 20);
+
+      /* --------------------------------------------------------- */
+
       function updateBG() {
         let nextAbility = document.getElementById("ability-type").value;
         if (nextAbility == "power") {
@@ -944,6 +962,9 @@
           <br/><br/>
           Credits go to KingsIsle Entertainment for Pirate101.
           <br/>Thanks for visiting / using this page!
+
+          <br/><br/>
+          <span id="deviceSize"></span>
         </p>
       </div>
 
