@@ -333,6 +333,7 @@
           document.getElementById("rnk-text").hidden = false;
         }
         updateRank();
+        toggleFrame();
       }
 
       function changeTitleFontSize() {
@@ -577,8 +578,8 @@
 
       function toggleFrame() {
         if (document.getElementById("frame-toggle").checked) {
-          let b = document.getElementById("ability-type").value;
-          document.getElementById("main-image-frame").src = "ability-creator-images/" + b + "-frame-2.png";
+        let b = document.getElementById("ability-type").value;
+        document.getElementById("main-image-frame").src = "ability-creator-images/" + b + "-frame-2.png";
           document.getElementById("main-image-frame").hidden = false;
         } else { document.getElementById("main-image-frame").hidden = true; }
       }
@@ -1296,7 +1297,7 @@
 
       <div class="sizetag">
         <h3>Size Tags</h3>
-        (use in moderation, most icons sizes are with no size tag)
+        (use in moderation, most icons sizes work best with no size tag)
         <table style="width: 300px;">
           <tr>
             <td>
