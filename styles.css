@@ -177,6 +177,17 @@ body.creator::-webkit-scrollbar { display: none; }
 
 .creator select { color: black; box-shadow: none; text-align: left; }
 
+.maincont a { color: blue; }
+
+.creatorbox .sizetag {
+  position: relative;
+  left: 50%;
+  width: 300px;
+
+  transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+}
+
 /*
 .creator #resultDesc * {
   box-shadow: 0 0 3px black;
